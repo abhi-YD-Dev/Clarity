@@ -26,10 +26,10 @@ An iOS application built in SwiftUI that explores cognitive psychology and metac
 
 <div style="max-width: 710px; overflow-x: auto; white-space: nowrap; padding: 10px; border: 1px solid #30363d; border-radius: 10px; background: #0d1117;">
   <div style="display: flex; gap: 15px;">
-    <img src="Screenshots/app-mockup1.png" width="220" style="flex-shrink: 0; border-radius: 15px; border: 1px solid #30363d;">
-    <img src="Screenshots/app-mockup2.png" width="220" style="flex-shrink: 0; border-radius: 15px; border: 1px solid #30363d;">
-    <img src="Screenshots/app-mockup3.png" width="220" style="flex-shrink: 0; border-radius: 15px; border: 1px solid #30363d;">
-    <img src="Screenshots/app4.png" width="220" style="flex-shrink: 0; border-radius: 15px; border: 1px solid #30363d;">
+    <img src="Screenshots/app-mockup1.png" width="180" style="flex-shrink: 0; border-radius: 15px; border: 1px solid #30363d;">
+    <img src="Screenshots/app-mockup2.png" width="180" style="flex-shrink: 0; border-radius: 15px; border: 1px solid #30363d;">
+    <img src="Screenshots/app-mockup3.png" width="180" style="flex-shrink: 0; border-radius: 15px; border: 1px solid #30363d;">
+    <img src="Screenshots/app4.png" width="180" style="flex-shrink: 0; border-radius: 15px; border: 1px solid #30363d;">
     
   </div>
 </div>
