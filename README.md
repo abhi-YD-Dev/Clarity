@@ -1,5 +1,5 @@
 # Clarity
-<img width="1024" height="1024" alt="ClarityIcon" src="https://github.com/user-attachments/assets/b5757de4-6a89-4dd6-9c25-1c6cd833d7b1" />
+<img width="100" height="100" alt="ClarityIcon" src="https://github.com/user-attachments/assets/b5757de4-6a89-4dd6-9c25-1c6cd833d7b1" />
 
 
 > **Master your learning by bridging the "Confidence-Competence" gap.**
