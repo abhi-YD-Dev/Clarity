@@ -1,7 +1,11 @@
 # Clarity
-Master your learning with Clarity. An advanced SwiftUI dashboard that identifies cognitive blind spots and improves self-awareness using real-time calibration tracking.
+<p align="left">
+  <img src="Screenshots/icon.png" width="48" height="48" style="border-radius: 10px; vertical-align: middle;">
+  <span style="font-size: 32px; font-weight: bold; vertical-align: middle; margin-left: 10px;">Clarity</span>
+</p>
 
-### Master your learning by bridging the "Confidence-Competence" gap.
+> **Master your learning by bridging the "Confidence-Competence" gap.**
+Master your learning with Clarity. An advanced SwiftUI dashboard that identifies cognitive blind spots and improves self-awareness using real-time calibration tracking.
 
 An iOS application built in SwiftUI that explores cognitive psychology and metacognition. By contrasting a user's perceived confidence against their actual test accuracy, the app calculates and visualizes a "Calibration Index." It shifts the focus from purely scoring high to becoming deeply self-aware of what you actually know.
 
@@ -29,6 +33,10 @@ An iOS application built in SwiftUI that explores cognitive psychology and metac
   <img src="Screenshots/app-mockup1.png" width="220" style="border-radius: 15px; border: 1px solid #ddd;">
   <img src="Screenshots/app-mockup2.png" width="220" style="border-radius: 15px; border: 1px solid #ddd;">
   <img src="Screenshots/app-mockup3.png" width="220" style="border-radius: 15px; border: 1px solid #ddd;">
+  <img src="Screenshots/app4.png" width="220" style="border-radius: 15px; border: 1px solid #ddd;">
+  <img src="Screenshots/app5.png" width="220" style="border-radius: 15px; border: 1px solid #ddd;">
+  <img src="Screenshots/app6.png" width="220" style="border-radius: 15px; border: 1px solid #ddd;">
+  <img src="Screenshots/app7.png" width="220" style="border-radius: 15px; border: 1px solid #ddd;">
   
 </div>
 
