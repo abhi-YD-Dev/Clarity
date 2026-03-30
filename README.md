@@ -22,7 +22,8 @@ An iOS application built in SwiftUI that explores cognitive psychology and metac
 
 ## 📸 Screenshots & Demo
 
-> *[Tip: Replace this text with a link to a high-quality GIF or screenshot of your app running!]*
-
+<p align="center">
+  <img src="Screenshots/app-mockup1.png" width="300" title="App Preview">
+</p>
 ## 📄 License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
