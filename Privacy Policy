@@ -1,0 +1,27 @@
+​📄 Privacy Policy
+​
+Effective Date: March 30, 2026
+​At Abhinav Yadav, your privacy is our top priority. This Privacy Policy explains how our application handles your information. Because we believe your data belongs to you, our app is designed to process everything directly on your device.
+​
+1. Information We Collect
+​We do not collect, store, or transmit any personal information, test scores, or analytical data to external servers. All data you input or scan remains strictly on your physical device.
+
+​2. Camera and Vision Framework Usage
+​Our app requests access to your device's camera solely to facilitate the scanning of physical study materials and test scores using Apple's Vision framework for Optical Character Recognition (OCR).
+​On-Device Processing: All image processing and text recognition happen locally in real-time on your device.
+​No Image Storage: We do not save, store, or upload the photos or video frames captured by your camera. Once the text is parsed, the visual data is immediately discarded.
+
+​3. Data Storage
+​Any data retained by the app (such as your topic names, confidence levels, and test scores) is stored locally on your device using Apple's SwiftData framework. This data is not backed up to our servers, nor is it accessible by us.
+
+​4. Third-Party Sharing
+​We do not share, sell, or distribute any of your data to third parties, because we never collect it in the first place.
+
+​5. Children's Privacy
+​Our app does not collect any personal information from anyone, including children under the age of 13.
+
+​6. Changes to This Policy
+​We may update our Privacy Policy from time to time. Any changes will be posted on this page with an updated effective date.
+
+​7. Contact Us
+​If you have any questions about this Privacy Policy, please contact us at abhiy81302@gmail.com.
