@@ -3,6 +3,8 @@
   <img src="Screenshots/icon.png" width="48" height="48" style="border-radius: 10px; vertical-align: middle;">
   <span style="font-size: 32px; font-weight: bold; vertical-align: middle; margin-left: 10px;">Clarity</span>
 </p>
+<p align="center">
+  <img src="Screenshots/icon.png" width="300" title="App Preview">
 
 > **Master your learning by bridging the "Confidence-Competence" gap.**
 Master your learning with Clarity. An advanced SwiftUI dashboard that identifies cognitive blind spots and improves self-awareness using real-time calibration tracking.
@@ -26,20 +28,23 @@ An iOS application built in SwiftUI that explores cognitive psychology and metac
 
 ## 📸 Screenshots & Demo
 
-<p align="center">
-  <img src="Screenshots/app-mockup1.png" width="300" title="App Preview">
-</p>
-<div style="display: flex; overflow-x: auto; gap: 10px; padding: 10px;">
-  <img src="Screenshots/app-mockup1.png" width="220" style="border-radius: 15px; border: 1px solid #ddd;">
-  <img src="Screenshots/app-mockup2.png" width="220" style="border-radius: 15px; border: 1px solid #ddd;">
-  <img src="Screenshots/app-mockup3.png" width="220" style="border-radius: 15px; border: 1px solid #ddd;">
-  <img src="Screenshots/app4.png" width="220" style="border-radius: 15px; border: 1px solid #ddd;">
-  <img src="Screenshots/app5.png" width="220" style="border-radius: 15px; border: 1px solid #ddd;">
-  <img src="Screenshots/app6.png" width="220" style="border-radius: 15px; border: 1px solid #ddd;">
-  <img src="Screenshots/app7.png" width="220" style="border-radius: 15px; border: 1px solid #ddd;">
-  
+<div style="max-width: 710px; overflow-x: auto; white-space: nowrap; padding: 10px; border: 1px solid #30363d; border-radius: 10px; background: #0d1117;">
+  <div style="display: flex; gap: 15px;">
+    <img src="Screenshots/app-mockup1.png" width="220" style="flex-shrink: 0; border-radius: 15px; border: 1px solid #30363d;">
+    <img src="Screenshots/app-mockup2.png" width="220" style="flex-shrink: 0; border-radius: 15px; border: 1px solid #30363d;">
+    <img src="Screenshots/app-mockup3.png" width="220" style="flex-shrink: 0; border-radius: 15px; border: 1px solid #30363d;">
+    <img src="Screenshots/app4.png" width="220" style="flex-shrink: 0; border-radius: 15px; border: 1px solid #30363d;">
+    <img src="Screenshots/app5.png" width="220" style="flex-shrink: 0; border-radius: 15px; border: 1px solid #30363d;">
+    <img src="Screenshots/app6.png" width="220" style="flex-shrink: 0; border-radius: 15px; border: 1px solid #30363d;">
+    <img src="Screenshots/app7.png" width="220" style="flex-shrink: 0; border-radius: 15px; border: 1px solid #30363d;">
+  </div>
 </div>
 
-<p align="center"><i>← Swipe to view more screenshots →</i></p>
+<p align="center"><i>← Swipe to explore the interface →</i></p>
 ## 📄 License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+
+
+https://github.com/user-attachments/assets/0340d42a-8c6b-400a-be6f-0652a8b8ccc4
+
