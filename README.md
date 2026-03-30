@@ -1,10 +1,6 @@
 # Clarity
-<p align="left">
-  <img src="Screenshots/icon.png" width="48" height="48" style="border-radius: 10px; vertical-align: middle;">
-  <span style="font-size: 32px; font-weight: bold; vertical-align: middle; margin-left: 10px;">Clarity</span>
-</p>
-<p align="center">
-  <img src="Screenshots/icon.png" width="300" title="App Preview">
+<img width="1024" height="1024" alt="ClarityIcon" src="https://github.com/user-attachments/assets/b5757de4-6a89-4dd6-9c25-1c6cd833d7b1" />
+
 
 > **Master your learning by bridging the "Confidence-Competence" gap.**
 Master your learning with Clarity. An advanced SwiftUI dashboard that identifies cognitive blind spots and improves self-awareness using real-time calibration tracking.
@@ -34,17 +30,19 @@ An iOS application built in SwiftUI that explores cognitive psychology and metac
     <img src="Screenshots/app-mockup2.png" width="220" style="flex-shrink: 0; border-radius: 15px; border: 1px solid #30363d;">
     <img src="Screenshots/app-mockup3.png" width="220" style="flex-shrink: 0; border-radius: 15px; border: 1px solid #30363d;">
     <img src="Screenshots/app4.png" width="220" style="flex-shrink: 0; border-radius: 15px; border: 1px solid #30363d;">
-    <img src="Screenshots/app5.png" width="220" style="flex-shrink: 0; border-radius: 15px; border: 1px solid #30363d;">
-    <img src="Screenshots/app6.png" width="220" style="flex-shrink: 0; border-radius: 15px; border: 1px solid #30363d;">
-    <img src="Screenshots/app7.png" width="220" style="flex-shrink: 0; border-radius: 15px; border: 1px solid #30363d;">
+    
   </div>
 </div>
 
 <p align="center"><i>← Swipe to explore the interface →</i></p>
-## 📄 License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+
 
 
 
 https://github.com/user-attachments/assets/0340d42a-8c6b-400a-be6f-0652a8b8ccc4
+
+
+## 📄 License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
