@@ -55,12 +55,12 @@ struct QuickCreateFlowView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                ClarityTheme.screenBackground.ignoresSafeArea()
+                Color(red: 0.04, green: 0.04, blue: 0.07).ignoresSafeArea()
 
                 RadialGradient(
                     colors: [phase == .concept
                              ? Color(red: 1.0, green: 0.7, blue: 0.2).opacity(0.1)
-                             : ClarityTheme.accentPurple.opacity(0.08),
+                             : Color.purple.opacity(0.08),
                              .clear],
                     center: .top, startRadius: 0, endRadius: 300
                 )
@@ -108,7 +108,7 @@ struct QuickCreateFlowView: View {
                         .padding(.bottom, 36)
                         .background(
                             LinearGradient(
-                                colors: [.clear, ClarityTheme.screenBackground],
+                                colors: [.clear, Color(red: 0.04, green: 0.04, blue: 0.07)],
                                 startPoint: .top, endPoint: .bottom
                             )
                             .frame(height: 120)
@@ -130,9 +130,9 @@ struct QuickCreateFlowView: View {
                     } label: {
                         Image(systemName: phase == .concept ? "xmark" : "chevron.left")
                             .font(.system(size: 14, weight: .semibold))
-                            .foregroundStyle(.secondary)
+                            .foregroundColor(.white.opacity(0.6))
                             .frame(width: 34, height: 34)
-                            .background(Color.primary.opacity(0.07))
+                            .background(Color.white.opacity(0.07))
                             .clipShape(Circle())
                     }
                 }
@@ -181,7 +181,7 @@ struct QuickCreateFlowView: View {
             )
 
             Rectangle()
-                .fill(phase == .topic ? ClarityTheme.accentPurple.opacity(0.4) : Color.primary.opacity(0.08))
+                .fill(phase == .topic ? Color.purple.opacity(0.4) : Color.white.opacity(0.08))
                 .frame(height: 1.5)
                 .frame(maxWidth: .infinity)
                 .animation(.easeInOut(duration: 0.4), value: phase)
@@ -191,7 +191,7 @@ struct QuickCreateFlowView: View {
                 label: "Topic",
                 active: phase == .topic,
                 done: false,
-                color: ClarityTheme.accentPurple
+                color: .purple
             )
         }
     }
@@ -200,7 +200,7 @@ struct QuickCreateFlowView: View {
         VStack(spacing: 5) {
             ZStack {
                 Circle()
-                    .fill(done ? color : (active ? color : Color.primary.opacity(0.07)))
+                    .fill(done ? color : (active ? color : Color.white.opacity(0.07)))
                     .frame(width: 32, height: 32)
                 if done {
                     Image(systemName: "checkmark")
@@ -209,12 +209,12 @@ struct QuickCreateFlowView: View {
                 } else {
                     Text(number)
                         .font(.system(size: 13, weight: .black, design: .rounded))
-                        .foregroundColor(active ? .black : Color(UIColor.tertiaryLabel))
+                        .foregroundColor(active ? .black : .white.opacity(0.3))
                 }
             }
             Text(label)
                 .font(.system(size: 11, weight: .bold))
-                .foregroundColor(active ? color : Color(UIColor.tertiaryLabel))
+                .foregroundColor(active ? color : .white.opacity(0.3))
         }
         .animation(.spring(response: 0.35), value: active)
     }
@@ -234,7 +234,7 @@ struct QuickCreateFlowView: View {
                 }
                 Text("Choose or create\na concept folder.")
                     .font(.system(size: 34, weight: .black))
-                    .foregroundStyle(.primary)
+                    .foregroundColor(.white)
                     .lineSpacing(2)
             }
 
@@ -256,16 +256,16 @@ struct QuickCreateFlowView: View {
                 VStack(alignment: .leading, spacing: 0) {
                     TextField("", text: $newConceptTitle, prompt:
                         Text("e.g. Neuroscience, SwiftData…")
-                            .foregroundStyle(.quaternary)
+                            .foregroundColor(.white.opacity(0.18))
                     )
                     .font(.system(size: 24, weight: .semibold))
-                    .foregroundStyle(.primary)
+                    .foregroundColor(.white)
                     .tint(Color(red: 1.0, green: 0.75, blue: 0.2))
                     .autocorrectionDisabled()
 
                     Rectangle()
                         .fill(newConceptTitle.isEmpty
-                              ? Color.primary.opacity(0.1)
+                              ? Color.white.opacity(0.1)
                               : Color(red: 1.0, green: 0.75, blue: 0.2))
                         .frame(height: newConceptTitle.isEmpty ? 1 : 2)
                         .animation(.spring(response: 0.3), value: newConceptTitle.isEmpty)
@@ -279,7 +279,7 @@ struct QuickCreateFlowView: View {
                             .foregroundColor(Color(red: 1.0, green: 0.75, blue: 0.2))
                         Text("Great name! Now add a topic in step 2.")
                             .font(.system(.caption, weight: .medium))
-                            .foregroundStyle(.secondary)
+                            .foregroundColor(.white.opacity(0.45))
                     }
                     .transition(.move(edge: .top).combined(with: .opacity))
                 }
@@ -297,19 +297,19 @@ struct QuickCreateFlowView: View {
                             HStack(spacing: 14) {
                                 ZStack {
                                     Circle()
-                                        .fill((concept.isCustom ? ClarityTheme.accentPurple : ClarityTheme.accentCyan).opacity(0.15))
+                                        .fill((concept.isCustom ? Color.purple : Color.cyan).opacity(0.15))
                                         .frame(width: 38, height: 38)
                                     Image(systemName: concept.isCustom ? "person.badge.plus" : "book.pages.fill")
                                         .font(.system(size: 15, weight: .semibold))
-                                        .foregroundColor(concept.isCustom ? ClarityTheme.accentPurple : ClarityTheme.accentCyan)
+                                        .foregroundColor(concept.isCustom ? .purple : .cyan)
                                 }
                                 VStack(alignment: .leading, spacing: 3) {
                                     Text(concept.title)
                                         .font(.system(.subheadline, weight: .bold))
-                                        .foregroundStyle(.primary)
+                                        .foregroundColor(.white)
                                     Text("\(concept.topics.count) topic\(concept.topics.count == 1 ? "" : "s")")
                                         .font(.system(.caption, weight: .medium))
-                                        .foregroundStyle(.secondary)
+                                        .foregroundColor(.white.opacity(0.4))
                                 }
                                 Spacer()
                                 if selectedConcept?.id == concept.id {
@@ -324,13 +324,13 @@ struct QuickCreateFlowView: View {
                                 RoundedRectangle(cornerRadius: 14, style: .continuous)
                                     .fill(selectedConcept?.id == concept.id
                                           ? Color(red: 1.0, green: 0.75, blue: 0.2).opacity(0.08)
-                                          : Color.primary.opacity(0.04))
+                                          : Color.white.opacity(0.04))
                             )
                             .overlay(
                                 RoundedRectangle(cornerRadius: 14, style: .continuous)
                                     .stroke(selectedConcept?.id == concept.id
                                             ? Color(red: 1.0, green: 0.75, blue: 0.2).opacity(0.4)
-                                            : Color.primary.opacity(0.07),
+                                            : Color.white.opacity(0.07),
                                             lineWidth: 1)
                             )
                         }
@@ -352,15 +352,15 @@ struct QuickCreateFlowView: View {
                 HStack(spacing: 8) {
                     Image(systemName: "questionmark.bubble.fill")
                         .font(.system(size: 16, weight: .semibold))
-                        .foregroundColor(ClarityTheme.accentPurple)
+                        .foregroundColor(.purple)
                     Text("STEP 2 — TOPIC")
                         .font(.system(size: 11, weight: .black))
-                        .foregroundColor(ClarityTheme.accentPurple)
+                        .foregroundColor(.purple)
                         .kerning(1.0)
                 }
                 Text("Add a topic to\nyour concept.")
                     .font(.system(size: 34, weight: .black))
-                    .foregroundStyle(.primary)
+                    .foregroundColor(.white)
                     .lineSpacing(2)
 
                
@@ -381,7 +381,7 @@ struct QuickCreateFlowView: View {
             
             VStack(spacing: 18) {
                 topicField(label: "Topic Title", placeholder: "e.g. Action Potentials",
-                           icon: "textformat", color: ClarityTheme.accentPurple, text: $topicTitle)
+                           icon: "textformat", color: .purple, text: $topicTitle)
 
                 
                 VStack(alignment: .leading, spacing: 8) {
@@ -390,15 +390,15 @@ struct QuickCreateFlowView: View {
                         .foregroundColor(Color(red: 0.5, green: 0.3, blue: 1.0).opacity(0.9))
                     TextEditor(text: $question)
                         .font(.system(.body, weight: .medium))
-                        .foregroundStyle(.primary)
+                        .foregroundColor(.white)
                         .scrollContentBackground(.hidden)
-                        .tint(ClarityTheme.accentPurple)
+                        .tint(.purple)
                         .frame(height: 90)
                         .padding(12)
-                        .background(Color.primary.opacity(0.04))
+                        .background(Color.white.opacity(0.04))
                         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                         .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous)
-                            .stroke(ClarityTheme.accentPurple.opacity(0.2), lineWidth: 1))
+                            .stroke(Color.purple.opacity(0.2), lineWidth: 1))
                 }
 
                 topicField(label: "Quick Hint", placeholder: "A nudge, not the answer…",
@@ -408,7 +408,7 @@ struct QuickCreateFlowView: View {
                 VStack(alignment: .leading, spacing: 10) {
                     Label("Difficulty", systemImage: "dial.medium")
                         .font(.system(size: 12, weight: .bold))
-                        .foregroundStyle(.secondary)
+                        .foregroundColor(.white.opacity(0.4))
 
                     HStack(spacing: 10) {
                         ForEach(Difficulty.allCases, id: \.self) { diff in
@@ -420,7 +420,7 @@ struct QuickCreateFlowView: View {
                                     Circle().fill(diff.color).frame(width: 7, height: 7)
                                     Text(diff.rawValue.capitalized)
                                         .font(.system(size: 13, weight: .bold))
-                                        .foregroundColor(difficulty == diff ? Color(.systemBackground) : Color.secondary)
+                                        .foregroundColor(difficulty == diff ? .black : .white.opacity(0.5))
                                 }
                                 .padding(.horizontal, 14)
                                 .padding(.vertical, 9)
@@ -440,7 +440,7 @@ struct QuickCreateFlowView: View {
             VStack(alignment: .leading, spacing: 14) {
                 Label("Model Solution", systemImage: "checkmark.seal")
                     .font(.system(size: 12, weight: .bold))
-                    .foregroundColor(ClarityTheme.accentPurple.opacity(0.8))
+                    .foregroundColor(.purple.opacity(0.8))
 
                 if !solutions.isEmpty {
                     VStack(spacing: 8) {
@@ -451,8 +451,8 @@ struct QuickCreateFlowView: View {
                 }
 
                 HStack(spacing: 10) {
-                    mediaBtn(icon: "text.cursor",     label: "Text",  color: ClarityTheme.accentCyan)   { showingTextAdd = true }
-                    mediaBtn(icon: "camera.viewfinder", label: "Image", color: ClarityTheme.accentPurple) { showingImageSheet = true }
+                    mediaBtn(icon: "text.cursor",     label: "Text",  color: .cyan)   { showingTextAdd = true }
+                    mediaBtn(icon: "camera.viewfinder", label: "Image", color: .purple) { showingImageSheet = true }
                     voiceButton
                 }
             }
@@ -464,12 +464,12 @@ struct QuickCreateFlowView: View {
             Label(label, systemImage: icon)
                 .font(.system(size: 12, weight: .bold))
                 .foregroundColor(color.opacity(0.9))
-            TextField("", text: text, prompt: Text(placeholder).foregroundStyle(.quaternary))
+            TextField("", text: text, prompt: Text(placeholder).foregroundColor(.white.opacity(0.18)))
                 .font(.system(.body, weight: .medium))
-                .foregroundStyle(.primary)
+                .foregroundColor(.white)
                 .tint(color)
                 .padding(12)
-                .background(Color.primary.opacity(0.04))
+                .background(Color.white.opacity(0.04))
                 .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                 .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous)
                     .stroke(color.opacity(0.2), lineWidth: 1))
@@ -480,14 +480,14 @@ struct QuickCreateFlowView: View {
         HStack(spacing: 10) {
             Image(systemName: sol.type == .text ? "text.alignleft" : sol.type == .image ? "photo" : "waveform")
                 .font(.system(size: 12, weight: .semibold))
-                .foregroundColor(ClarityTheme.accentPurple)
+                .foregroundColor(.purple)
                 .frame(width: 28, height: 28)
-                .background(ClarityTheme.accentPurple.opacity(0.1))
+                .background(Color.purple.opacity(0.1))
                 .clipShape(Circle())
 
             Group {
                 if sol.type == .text {
-                    Text(sol.textContent ?? "").font(.system(.caption, weight: .medium)).foregroundStyle(.primary).lineLimit(1)
+                    Text(sol.textContent ?? "").font(.system(.caption, weight: .medium)).foregroundColor(.white).lineLimit(1)
                 } else if sol.type == .image, let d = sol.imageData, let img = UIImage(data: d) {
                     Image(uiImage: img).resizable().scaledToFill().frame(width: 36, height: 28).clipShape(RoundedRectangle(cornerRadius: 5))
                 } else if sol.type == .voice, let d = sol.audioData {
@@ -500,17 +500,17 @@ struct QuickCreateFlowView: View {
             } label: {
                 Image(systemName: "xmark")
                     .font(.system(size: 10, weight: .bold))
-                    .foregroundStyle(.tertiary)
+                    .foregroundColor(.white.opacity(0.3))
                     .frame(width: 22, height: 22)
-                    .background(Color.primary.opacity(0.06))
+                    .background(Color.white.opacity(0.06))
                     .clipShape(Circle())
             }
             .buttonStyle(.plain)
         }
         .padding(10)
-        .background(Color.primary.opacity(0.04))
+        .background(Color.white.opacity(0.04))
         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).stroke(Color.primary.opacity(0.07), lineWidth: 1))
+        .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).stroke(Color.white.opacity(0.07), lineWidth: 1))
         .transition(.move(edge: .top).combined(with: .opacity))
     }
 
@@ -548,13 +548,13 @@ struct QuickCreateFlowView: View {
                 Text(voiceRecorder.isRecording ? "Stop" : "Voice")
                     .font(.system(size: 11, weight: .bold))
             }
-            .foregroundColor(voiceRecorder.isRecording ? .white : ClarityTheme.accentOrange)
+            .foregroundColor(voiceRecorder.isRecording ? .white : .orange)
             .frame(maxWidth: .infinity)
             .padding(.vertical, 12)
-            .background(voiceRecorder.isRecording ? Color.red : ClarityTheme.accentOrange.opacity(0.08))
+            .background(voiceRecorder.isRecording ? Color.red : Color.orange.opacity(0.08))
             .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
             .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous)
-                .stroke(voiceRecorder.isRecording ? Color.red.opacity(0.5) : ClarityTheme.accentOrange.opacity(0.18), lineWidth: 1))
+                .stroke(voiceRecorder.isRecording ? Color.red.opacity(0.5) : Color.orange.opacity(0.18), lineWidth: 1))
             .scaleEffect(voiceRecorder.isRecording ? 1.04 : 1.0)
             .animation(voiceRecorder.isRecording ? .easeInOut(duration: 0.8).repeatForever() : .default, value: voiceRecorder.isRecording)
         }
@@ -566,16 +566,16 @@ struct QuickCreateFlowView: View {
                 Text(label)
                     .font(.system(size: 13, weight: .bold))
                     
-                    .foregroundColor(selected ? Color(.systemBackground) : Color.secondary)
+                    .foregroundColor(selected ? .black : .white.opacity(0.6))
                     .padding(.horizontal, 16)
                     .padding(.vertical, 8)
                     .background(
                        
-                        Capsule().fill(selected ? color : Color.primary.opacity(0.02))
+                        Capsule().fill(selected ? color : Color.white.opacity(0.02))
                     )
                    
                     .overlay(
-                        Capsule().stroke(selected ? color : Color.primary.opacity(0.15), lineWidth: 1)
+                        Capsule().stroke(selected ? color : Color.white.opacity(0.15), lineWidth: 1)
                     )
             }
             .buttonStyle(.plain)
@@ -592,13 +592,13 @@ struct QuickCreateFlowView: View {
                 Image(systemName: phase == .concept ? "arrow.right" : "checkmark")
                     .font(.system(size: 14, weight: .bold))
             }
-            .foregroundColor(buttonEnabled ? (phase == .concept ? ClarityTheme.screenBackground : .white) : Color(UIColor.quaternaryLabel))
+            .foregroundColor(buttonEnabled ? (phase == .concept ? Color(red: 0.05, green: 0.05, blue: 0.08) : .white) : .white.opacity(0.2))
             .frame(maxWidth: .infinity)
             .padding(.vertical, 18)
             .background(
                 Group {
                     if !buttonEnabled {
-                        AnyView(Color.primary.opacity(0.06))
+                        AnyView(Color.white.opacity(0.06))
                     } else if phase == .concept {
                         AnyView(Color(red: 1.0, green: 0.75, blue: 0.2))
                     } else {
@@ -612,7 +612,7 @@ struct QuickCreateFlowView: View {
             .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
             .shadow(
                 color: buttonEnabled
-                    ? (phase == .concept ? Color(red: 1.0, green: 0.6, blue: 0.1).opacity(0.5) : ClarityTheme.accentPurple.opacity(0.5))
+                    ? (phase == .concept ? Color(red: 1.0, green: 0.6, blue: 0.1).opacity(0.5) : Color.purple.opacity(0.5))
                     : .clear,
                 radius: 16, x: 0, y: 6
             )

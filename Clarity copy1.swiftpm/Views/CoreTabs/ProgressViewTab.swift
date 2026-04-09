@@ -39,7 +39,16 @@ struct ProgressViewTab: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                ClarityTheme.screenBackground.ignoresSafeArea()
+                Color(red: 0.04, green: 0.04, blue: 0.07).ignoresSafeArea()
+
+       
+                RadialGradient(
+                    colors: [Color.cyan.opacity(0.06), .clear],
+                    center: .top,
+                    startRadius: 0,
+                    endRadius: 400
+                )
+                .ignoresSafeArea()
 
                 if allAttempts.isEmpty {
                     emptyState
@@ -47,27 +56,36 @@ struct ProgressViewTab: View {
                     ScrollView(showsIndicators: false) {
                         VStack(alignment: .leading, spacing: 0) {
 
+                          
+                            header
+                                .padding(.horizontal, 24)
+                                .padding(.top, 20)
+                                .padding(.bottom, 28)
+
                             chartHero
                                 .padding(.horizontal, 20)
-                                .padding(.top, 16)
-                                .padding(.bottom, 24)
+                                .padding(.bottom, 28)
 
+                       
                             statsRow
                                 .padding(.horizontal, 20)
-                                .padding(.bottom, 32)
+                                .padding(.bottom, 36)
 
+                       
                             HStack {
-                                Text("Attempt History")
-                                    .font(.title3.weight(.bold))
-                                    .foregroundStyle(.primary)
+                                Text("ATTEMPT HISTORY")
+                                    .font(.system(size: 20, weight: .black))
+                                    .foregroundColor(.white.opacity(0.9))
+                                    .kerning(1.0)
                                 Spacer()
                                 Text("\(totalAttempts) total")
-                                    .font(.caption.weight(.semibold))
-                                    .foregroundStyle(.secondary)
+                                    .font(.system(size: 11, weight: .bold))
+                                    .foregroundColor(.white.opacity(0.65))
                             }
                             .padding(.horizontal, 24)
                             .padding(.bottom, 16)
 
+                   
                             LazyVStack(spacing: 12) {
                                 ForEach(Array(recentAttempts.enumerated()), id: \.element.id) { index, attempt in
                                     AttemptTimelineCard(
@@ -84,6 +102,27 @@ struct ProgressViewTab: View {
                 }
             }
             .navigationTitle("Progress")
+            .navigationBarHidden(true)
+        }
+    }
+
+
+    private var header: some View {
+        VStack(alignment: .leading, spacing: 6) {
+           
+            Text("Progress")
+                .font(.system(size: 34, weight: .black))
+                .foregroundColor(.white)
+            Spacer()
+            
+            Text("CALIBRATION JOURNEY")
+                .font(.system(size: 11, weight: .black))
+                .foregroundColor(.cyan.opacity(0.7))
+                .kerning(1.2)
+
+            Text("Track how your self-awareness sharpens over time.")
+                .font(.system(.subheadline, weight: .medium))
+                .foregroundColor(.white.opacity(0.4))
         }
     }
 
@@ -93,18 +132,19 @@ struct ProgressViewTab: View {
             
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Calibration Journey")
-                        .font(.headline.weight(.semibold))
-                        .foregroundStyle(.primary)
+                    Text("GAP OVER TIME")
+                        .font(.system(size: 10, weight: .black))
+                        .foregroundColor(.white.opacity(0.65))
+                        .kerning(0.8)
                     Text("Closer to zero = better calibrated")
-                        .font(.caption.weight(.medium))
-                        .foregroundStyle(.secondary)
+                        .font(.system(.caption, weight: .medium))
+                        .foregroundColor(.white.opacity(0.4))
                 }
                 Spacer()
                 
                 HStack(spacing: 10) {
-                    zoneLegendDot(ClarityTheme.accentGreen,  "Clarity")
-                    zoneLegendDot(ClarityTheme.accentOrange, "Over")
+                    zoneLegendDot(.green,  "Clarity")
+                    zoneLegendDot(.orange, "Over")
                     zoneLegendDot(.blue,   "Under")
                 }
             }
@@ -122,12 +162,12 @@ struct ProgressViewTab: View {
                         yStart: .value("Low",  -10),
                         yEnd:   .value("High",  10)
                     )
-                    .foregroundStyle(ClarityTheme.accentGreen.opacity(0.05))
+                    .foregroundStyle(Color.green.opacity(0.06))
                     
                    
                     RuleMark(y: .value("Zero", 0))
                         .lineStyle(StrokeStyle(lineWidth: 1.5, dash: [6]))
-                        .foregroundStyle(ClarityTheme.accentGreen.opacity(0.4))
+                        .foregroundStyle(Color.green.opacity(0.5))
                     
                   
                     ForEach(allAttempts) { attempt in
@@ -138,7 +178,7 @@ struct ProgressViewTab: View {
                         .interpolationMethod(.monotone)
                         .foregroundStyle(
                             LinearGradient(
-                                colors: [ClarityTheme.accentCyan.opacity(0.2), ClarityTheme.accentCyan.opacity(0.0)],
+                                colors: [Color.cyan.opacity(0.25), Color.cyan.opacity(0.0)],
                                 startPoint: .top,
                                 endPoint: .bottom
                             )
@@ -151,7 +191,7 @@ struct ProgressViewTab: View {
                             y: .value("Gap",  attempt.calibrationGap)
                         )
                         .interpolationMethod(.monotone)
-                        .foregroundStyle(ClarityTheme.accentCyan)
+                        .foregroundStyle(Color.cyan)
                         .lineStyle(StrokeStyle(lineWidth: 2.5))
                     }
                    
@@ -172,16 +212,16 @@ struct ProgressViewTab: View {
                 .chartXScale(domain: .automatic(reversed: true))
                 .chartYAxis {
                     AxisMarks(position: .leading, values: [-50, -25, 0, 25, 50]) {
-                        AxisGridLine().foregroundStyle(Color.primary.opacity(0.05))
+                        AxisGridLine().foregroundStyle(Color.white.opacity(0.06))
                         AxisValueLabel()
-                            .foregroundStyle(Color.primary.opacity(0.3))
+                            .foregroundStyle(Color.white.opacity(0.3))
                             .font(.system(size: 10))
                     }
                 }
                 .chartXAxis {
                     AxisMarks(values: .stride(by: .day, count: max(1, allAttempts.count / 6))) {
                         AxisValueLabel(format: .dateTime.month(.abbreviated).day())
-                            .foregroundStyle(Color.primary.opacity(0.3))
+                            .foregroundStyle(Color.white.opacity(0.3))
                             .font(.system(size: 10))
                     }
                 }
@@ -194,19 +234,19 @@ struct ProgressViewTab: View {
         .padding(20)
         .background(
             ZStack {
-                ClarityTheme.cardBackground
+                Color(red: 0.08, green: 0.08, blue: 0.13)
                 RadialGradient(
-                    colors: [ClarityTheme.accentCyan.opacity(0.06), .clear],
+                    colors: [Color.cyan.opacity(0.07), .clear],
                     center: .topLeading,
                     startRadius: 0,
                     endRadius: 200
                 )
             }
         )
-        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: 20, style: .continuous)
-                .stroke(ClarityTheme.accentCyan.opacity(0.10), lineWidth: 1)
+            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                .stroke(Color.cyan.opacity(0.12), lineWidth: 1)
         )
     }
 
@@ -215,8 +255,9 @@ struct ProgressViewTab: View {
     private func chartDotSymbol(isRecent: Bool, color: Color) -> some View {
         ZStack {
             if isRecent {
+                
                 Circle()
-                    .stroke(Color.primary.opacity(0.95), lineWidth: 2)
+                    .stroke(Color.white.opacity(0.95), lineWidth: 2)
                     .frame(width: 16, height: 16)
             }
             
@@ -231,7 +272,7 @@ struct ProgressViewTab: View {
             Circle().fill(color).frame(width: 6, height: 6)
             Text(label)
                 .font(.system(size: 9, weight: .semibold))
-                .foregroundStyle(.secondary)
+                .foregroundColor(.white.opacity(0.65))
         }
     }
 
@@ -241,20 +282,20 @@ struct ProgressViewTab: View {
         HStack(spacing: 12) {
             statCard(
                 value: "\(abs(averageGap))%",
-                label: "Avg Gap",
-                color: averageGap > 15 ? ClarityTheme.accentOrange : (averageGap < -15 ? .blue : ClarityTheme.accentGreen),
+                label: "AVG GAP",
+                color: averageGap > 15 ? .orange : (averageGap < -15 ? .blue : .green),
                 icon: "scope"
             )
             statCard(
                 value: "\(totalAttempts)",
-                label: "Attempts",
-                color: ClarityTheme.accentCyan,
+                label: "ATTEMPTS",
+                color: .cyan,
                 icon: "checkmark.circle"
             )
             statCard(
                 value: "\(bestStreak)",
-                label: "Best Streak",
-                color: ClarityTheme.accentPurple,
+                label: "BEST STREAK",
+                color: .purple,
                 icon: "flame"
             )
         }
@@ -268,30 +309,31 @@ struct ProgressViewTab: View {
 
             VStack(alignment: .leading, spacing: 3) {
                 Text(value)
-                    .font(.system(size: 24, weight: .bold, design: .rounded))
-                    .foregroundStyle(.primary)
+                    .font(.system(size: 26, weight: .black, design: .rounded))
+                    .foregroundColor(.white)
                 Text(label)
-                    .font(.caption2.weight(.semibold))
-                    .foregroundStyle(.tertiary)
+                    .font(.system(size: 9, weight: .black))
+                    .foregroundColor(.white.opacity(0.3))
+                    .kerning(0.6)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(16)
         .background(
             ZStack {
-                ClarityTheme.cardBackground
+                Color(red: 0.08, green: 0.08, blue: 0.13)
                 RadialGradient(
-                    colors: [color.opacity(0.08), .clear],
+                    colors: [color.opacity(0.1), .clear],
                     center: .topLeading,
                     startRadius: 0,
                     endRadius: 80
                 )
             }
         )
-        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .stroke(color.opacity(0.12), lineWidth: 1)
+            RoundedRectangle(cornerRadius: 18, style: .continuous)
+                .stroke(color.opacity(0.2), lineWidth: 1)
         )
     }
 
@@ -301,20 +343,20 @@ struct ProgressViewTab: View {
         VStack(spacing: 24) {
             ZStack {
                 Circle()
-                    .fill(ClarityTheme.accentCyan.opacity(0.06))
+                    .fill(Color.cyan.opacity(0.06))
                     .frame(width: 100, height: 100)
                 Image(systemName: "chart.xyaxis.line")
                     .font(.system(size: 38, weight: .light))
-                    .foregroundStyle(.quaternary)
+                    .foregroundColor(.white.opacity(0.2))
             }
 
             VStack(spacing: 8) {
                 Text("No Data Yet")
-                    .font(.title2.weight(.bold))
-                    .foregroundStyle(.primary)
+                    .font(.system(.title2, weight: .bold))
+                    .foregroundColor(.white)
                 Text("Take a few tests to start tracking\nyour cognitive calibration over time.")
-                    .font(.subheadline.weight(.medium))
-                    .foregroundStyle(.secondary)
+                    .font(.system(.subheadline, weight: .medium))
+                    .foregroundColor(.white.opacity(0.4))
                     .multilineTextAlignment(.center)
                     .lineSpacing(4)
             }
@@ -326,14 +368,19 @@ struct ProgressViewTab: View {
                     Image(systemName: "arrow.right.circle.fill")
                         .font(.system(size: 18, weight: .semibold))
                     Text("Take Your First Test")
-                        .font(.headline.weight(.bold))
+                        .font(.system(.headline, weight: .bold))
                 }
-                .foregroundColor(.white)
+                .foregroundColor(.black)
                 .padding(.horizontal, 28)
                 .padding(.vertical, 16)
-                .background(ClarityTheme.cyanGradient)
+                .background(
+                    LinearGradient(
+                        colors: [Color.cyan, Color.cyan.opacity(0.7)],
+                        startPoint: .topLeading, endPoint: .bottomTrailing
+                    )
+                )
                 .clipShape(Capsule())
-                .shadow(color: ClarityTheme.accentCyan.opacity(0.35), radius: 16, x: 0, y: 6)
+                .shadow(color: Color.cyan.opacity(0.4), radius: 16, x: 0, y: 6)
             }
             .buttonStyle(.plain)
             .accessibilityHint("Navigate to Library to pick a topic and start testing")
@@ -387,14 +434,14 @@ struct AttemptTimelineCard: View {
                 VStack(alignment: .leading, spacing: 5) {
                    
                     Text(topic?.title ?? "Unknown Topic")
-                        .font(.subheadline.weight(.bold))
-                        .foregroundStyle(.primary)
+                        .font(.system(.subheadline, weight: .bold))
+                        .foregroundColor(.white)
                         .lineLimit(1)
 
                     
                     Text(attempt.date.formatted(date: .abbreviated, time: .shortened))
                         .font(.system(size: 11, weight: .medium))
-                        .foregroundStyle(.tertiary)
+                        .foregroundColor(.white.opacity(0.35))
                 }
 
                 Spacer()
@@ -402,39 +449,39 @@ struct AttemptTimelineCard: View {
                
                 VStack(alignment: .trailing, spacing: 4) {
                     Text("\(gapPrefix)\(attempt.calibrationGap)%")
-                        .font(.system(size: 17, weight: .bold, design: .rounded))
+                        .font(.system(size: 17, weight: .black, design: .rounded))
                         .foregroundColor(gapColor)
 
                     Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
                         .font(.system(size: 10, weight: .bold))
-                        .foregroundStyle(.tertiary)
+                        .foregroundColor(.white.opacity(0.25))
                 }
             }
 
             
             HStack(spacing: 8) {
-                scoreChip(label: "Confidence", value: attempt.confidenceLevel, color: ClarityTheme.accentCyan)
-                scoreChip(label: "Score", value: attempt.actualAccuracy, color: ClarityTheme.accentPurple)
+                scoreChip(label: "Confidence", value: attempt.confidenceLevel, color: .cyan)
+                scoreChip(label: "Score", value: attempt.actualAccuracy, color: .purple)
 
                 Spacer()
 
                
                 Text(attempt.zone.rawValue)
-                    .font(.system(size: 9, weight: .bold))
+                    .font(.system(size: 9, weight: .black))
                     .kerning(0.4)
                     .foregroundColor(gapColor)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
-                    .background(gapColor.opacity(0.10))
+                    .background(gapColor.opacity(0.12))
                     .clipShape(Capsule())
             }
         }
         .padding(16)
         .background(
             ZStack {
-                ClarityTheme.cardBackground
+                Color(red: 0.09, green: 0.09, blue: 0.14)
                 RadialGradient(
-                    colors: [gapColor.opacity(0.06), .clear],
+                    colors: [gapColor.opacity(0.08), .clear],
                     center: .topLeading,
                     startRadius: 0,
                     endRadius: 120
@@ -446,8 +493,8 @@ struct AttemptTimelineCard: View {
             RoundedRectangle(cornerRadius: 16, style: .continuous)
                 .stroke(
                     isExpanded
-                        ? gapColor.opacity(0.25)
-                        : Color.primary.opacity(0.06),
+                        ? gapColor.opacity(0.3)
+                        : Color.white.opacity(0.07),
                     lineWidth: 1
                 )
         )
@@ -456,15 +503,15 @@ struct AttemptTimelineCard: View {
     private func scoreChip(label: String, value: Int, color: Color) -> some View {
         HStack(spacing: 4) {
             Text(label)
-                .font(.system(size: 9, weight: .semibold))
-                .foregroundStyle(.tertiary)
+                .font(.system(size: 9, weight: .bold))
+                .foregroundColor(.white.opacity(0.35))
             Text("\(value)%")
-                .font(.system(size: 11, weight: .bold, design: .rounded))
+                .font(.system(size: 11, weight: .black, design: .rounded))
                 .foregroundColor(color)
         }
         .padding(.horizontal, 8)
         .padding(.vertical, 4)
-        .background(color.opacity(0.06))
+        .background(color.opacity(0.08))
         .clipShape(Capsule())
     }
 
@@ -475,7 +522,7 @@ struct AttemptTimelineCard: View {
 
             
             Rectangle()
-                .fill(gapColor.opacity(0.12))
+                .fill(gapColor.opacity(0.15))
                 .frame(height: 1)
                 .padding(.horizontal, 16)
 
@@ -484,8 +531,8 @@ struct AttemptTimelineCard: View {
                
                 expandedSection(
                     icon: "square.and.pencil",
-                    title: "Your Answer",
-                    color: ClarityTheme.accentCyan
+                    title: "YOUR ANSWER",
+                    color: .cyan
                 ) {
                     if !attempt.textAnswers.isEmpty {
                         VStack(alignment: .leading, spacing: 8) {
@@ -493,10 +540,10 @@ struct AttemptTimelineCard: View {
                                 HStack(alignment: .top, spacing: 8) {
                                     Text("\(index + 1).")
                                         .font(.system(size: 12, weight: .bold, design: .monospaced))
-                                        .foregroundColor(ClarityTheme.accentCyan.opacity(0.5))
+                                        .foregroundColor(.cyan.opacity(0.5))
                                     Text(answer)
-                                        .font(.subheadline)
-                                        .foregroundStyle(.primary)
+                                        .font(.system(.subheadline, weight: .regular))
+                                        .foregroundColor(.white.opacity(0.8))
                                         .lineSpacing(5)
                                         .fixedSize(horizontal: false, vertical: true)
                                 }
@@ -510,13 +557,13 @@ struct AttemptTimelineCard: View {
                
                 expandedSection(
                     icon: "brain",
-                    title: "Reflection",
-                    color: ClarityTheme.accentPurple
+                    title: "REFLECTION",
+                    color: .purple
                 ) {
                     if !attempt.reflectionText.isEmpty {
                         Text(attempt.reflectionText)
-                            .font(.subheadline)
-                            .foregroundStyle(.primary)
+                            .font(.system(.subheadline, weight: .regular))
+                            .foregroundColor(.white.opacity(0.8))
                             .lineSpacing(5)
                             .fixedSize(horizontal: false, vertical: true)
                     } else {
@@ -527,18 +574,18 @@ struct AttemptTimelineCard: View {
                
                 expandedSection(
                     icon: "scope",
-                    title: "Calibration Breakdown",
+                    title: "CALIBRATION BREAKDOWN",
                     color: gapColor
                 ) {
                     HStack(spacing: 16) {
-                        miniStat(label: "Confidence", value: "\(attempt.confidenceLevel)%", color: ClarityTheme.accentCyan)
+                        miniStat(label: "Confidence", value: "\(attempt.confidenceLevel)%", color: .cyan)
                         Text("→")
                             .font(.system(size: 13, weight: .bold))
-                            .foregroundStyle(.quaternary)
-                        miniStat(label: "Actual Score", value: "\(attempt.actualAccuracy)%", color: ClarityTheme.accentPurple)
+                            .foregroundColor(.white.opacity(0.2))
+                        miniStat(label: "Actual Score", value: "\(attempt.actualAccuracy)%", color: .purple)
                         Text("=")
                             .font(.system(size: 13, weight: .bold))
-                            .foregroundStyle(.quaternary)
+                            .foregroundColor(.white.opacity(0.2))
                         miniStat(
                             label: "Gap",
                             value: "\(gapPrefix)\(attempt.calibrationGap)%",
@@ -549,7 +596,7 @@ struct AttemptTimelineCard: View {
             }
             .padding(16)
         }
-        .background(ClarityTheme.elevatedBackground)
+        .background(Color(red: 0.07, green: 0.07, blue: 0.11))
         .clipShape(
             UnevenRoundedRectangle(
                 topLeadingRadius: 0,
@@ -565,7 +612,7 @@ struct AttemptTimelineCard: View {
                 bottomTrailingRadius: 16,
                 topTrailingRadius: 0
             )
-            .stroke(gapColor.opacity(0.15), lineWidth: 1)
+            .stroke(gapColor.opacity(0.2), lineWidth: 1)
         )
     }
 
@@ -581,8 +628,9 @@ struct AttemptTimelineCard: View {
                     .font(.system(size: 11, weight: .bold))
                     .foregroundColor(color)
                 Text(title)
-                    .font(.caption.weight(.bold))
+                    .font(.system(size: 10, weight: .black))
                     .foregroundColor(color.opacity(0.8))
+                    .kerning(0.8)
             }
             content()
         }
@@ -591,18 +639,18 @@ struct AttemptTimelineCard: View {
     private func emptyFieldNote(_ text: String) -> some View {
         Text(text)
             .font(Font.system(.caption, design: .monospaced, weight: .medium))
-            .foregroundStyle(.quaternary)
+            .foregroundColor(.white.opacity(0.2))
             .italic()
     }
 
     private func miniStat(label: String, value: String, color: Color) -> some View {
         VStack(spacing: 3) {
             Text(value)
-                .font(.system(size: 16, weight: .bold, design: .rounded))
+                .font(.system(size: 16, weight: .black, design: .rounded))
                 .foregroundColor(color)
             Text(label)
-                .font(.system(size: 9, weight: .semibold))
-                .foregroundStyle(.tertiary)
+                .font(.system(size: 9, weight: .bold))
+                .foregroundColor(.white.opacity(0.3))
         }
     }
 }

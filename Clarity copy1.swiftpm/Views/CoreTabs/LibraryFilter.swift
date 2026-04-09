@@ -1,6 +1,5 @@
 
 
-
 import SwiftUI
 import SwiftData
 
@@ -43,7 +42,7 @@ struct LibraryView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                ClarityTheme.screenBackground.ignoresSafeArea()
+                Color.black.ignoresSafeArea()
 
                 VStack(spacing: 0) {
 
@@ -51,14 +50,14 @@ struct LibraryView: View {
                     HStack(spacing: 10) {
                         Image(systemName: "magnifyingglass")
                             .font(.system(size: 14, weight: .semibold))
-                            .foregroundStyle(.tertiary)
+                            .foregroundColor(.white.opacity(0.35))
                         TextField("", text: $searchText, prompt:
                             Text("Search concepts…")
-                                .foregroundStyle(.tertiary)
+                                .foregroundColor(.white.opacity(0.25))
                         )
-                        .font(.subheadline.weight(.medium))
-                        .foregroundStyle(.primary)
-                        .tint(ClarityTheme.accentCyan)
+                        .font(.system(.subheadline, weight: .medium))
+                        .foregroundColor(.white)
+                        .tint(.cyan)
                         .autocorrectionDisabled()
                         
                         if !searchText.isEmpty {
@@ -67,7 +66,7 @@ struct LibraryView: View {
                             } label: {
                                 Image(systemName: "xmark.circle.fill")
                                     .font(.system(size: 14))
-                                    .foregroundStyle(.tertiary)
+                                    .foregroundColor(.white.opacity(0.3))
                             }
                             .buttonStyle(.plain)
                             .transition(.scale.combined(with: .opacity))
@@ -76,9 +75,9 @@ struct LibraryView: View {
                     }
                     .padding(.horizontal, 14)
                     .padding(.vertical, 10)
-                    .background(Color.primary.opacity(0.05))
+                    .background(Color.white.opacity(0.06))
                     .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-                    .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).stroke(Color.primary.opacity(0.06), lineWidth: 1))
+                    .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).stroke(Color.white.opacity(0.08), lineWidth: 1))
                     .padding(.horizontal)
                     .padding(.top, 12)
                     .padding(.bottom, 6)
@@ -88,7 +87,7 @@ struct LibraryView: View {
                         .padding(.horizontal)
                         .padding(.top, 4)
                         .padding(.bottom, 8)
-                        .background(ClarityTheme.screenBackground)
+                        .background(Color.black)
                         .zIndex(1)
 
                     ScrollView(showsIndicators: false) {
@@ -99,9 +98,10 @@ struct LibraryView: View {
                             LazyVStack(spacing: 14) {
                               
                                 HStack {
-                                    Text("\(filteredConcepts.count) concept\(filteredConcepts.count == 1 ? "" : "s")")
-                                        .font(.caption.weight(.semibold))
-                                        .foregroundStyle(.tertiary)
+                                    Text("\(filteredConcepts.count) CONCEPT\(filteredConcepts.count == 1 ? "" : "S")")
+                                        .font(.system(size: 11, weight: .black))
+                                        .foregroundColor(.white.opacity(0.3))
+                                        .kerning(0.8)
                                     Spacer()
                                 }
                                 .padding(.horizontal)
@@ -148,11 +148,11 @@ struct LibraryView: View {
                     NavigationLink(destination: CreateConceptView()) {
                         ZStack {
                             Circle()
-                                .fill(ClarityTheme.accentCyan.opacity(0.12))
+                                .fill(Color.cyan.opacity(0.15))
                                 .frame(width: 36, height: 36)
                             Image(systemName: "plus")
                                 .font(.system(size: 14, weight: .bold))
-                                .foregroundColor(ClarityTheme.accentCyan)
+                                .foregroundColor(.cyan)
                         }
                     }
                     .simultaneousGesture(TapGesture().onEnded {
@@ -181,16 +181,16 @@ struct LibraryView: View {
                         Text(option.rawValue)
                             .font(.system(size: 13, weight: .bold))
                     }
-                    .foregroundColor(filter == option ? .white : Color.secondary)
+                    .foregroundColor(filter == option ? .black : .white.opacity(0.55))
                     .padding(.horizontal, 14)
                     .padding(.vertical, 8)
                     .background(
                         Capsule()
-                            .fill(filter == option ? ClarityTheme.accentCyan : Color.primary.opacity(0.05))
+                            .fill(filter == option ? Color.cyan : Color.white.opacity(0.07))
                     )
                     .overlay(
                         Capsule()
-                            .stroke(filter == option ? Color.clear : Color.primary.opacity(0.06), lineWidth: 1)
+                            .stroke(filter == option ? Color.clear : Color.white.opacity(0.1), lineWidth: 1)
                     )
                 }
                 .buttonStyle(.plain)
@@ -205,11 +205,11 @@ struct LibraryView: View {
 
 struct ConceptFolderCard: View {
     let concept: Concept
-    private var accentColor: Color  { concept.isCustom ? ClarityTheme.accentPurple : ClarityTheme.accentCyan }
+    private var accentColor: Color  { concept.isCustom ? .purple : .cyan }
     private var gradientColors: [Color] {
         concept.isCustom
-            ? [Color(red: 0.45, green: 0.15, blue: 0.68), Color(red: 0.28, green: 0.08, blue: 0.42)]
-            : [Color(red: 0.06, green: 0.52, blue: 0.70), Color(red: 0.04, green: 0.35, blue: 0.55)]
+            ? [Color(red: 0.5, green: 0.1, blue: 0.7), Color(red: 0.3, green: 0.05, blue: 0.45)]
+            : [Color(red: 0.0, green: 0.6, blue: 0.8), Color(red: 0.0, green: 0.35, blue: 0.6)]
     }
 
     var body: some View {
@@ -225,13 +225,14 @@ struct ConceptFolderCard: View {
 
                 Image(systemName: concept.isCustom ? "person.badge.plus" : "book.pages.fill")
                     .font(.system(size: 44, weight: .bold))
-                    .foregroundStyle(.white.opacity(0.08))
+                    .foregroundColor(.white.opacity(0.15))
                     .rotationEffect(.degrees(-10))
                     .offset(x: 8, y: 6)
 
                 Image(systemName: concept.isCustom ? "person.badge.plus" : "book.pages.fill")
                     .font(.system(size: 22, weight: .semibold))
-                    .foregroundStyle(.white)
+                    .foregroundColor(.white)
+                    .shadow(color: .black.opacity(0.3), radius: 4)
             }
             .frame(width: 72, height: 76)
             .clipShape(
@@ -248,8 +249,8 @@ struct ConceptFolderCard: View {
             HStack(spacing: 12) {
                 VStack(alignment: .leading, spacing: 5) {
                     Text(concept.title)
-                        .font(.headline.weight(.bold))
-                        .foregroundStyle(.primary)
+                        .font(.system(.headline, weight: .bold))
+                        .foregroundColor(.white)
                         .lineLimit(1)
 
                     HStack(spacing: 6) {
@@ -263,31 +264,31 @@ struct ConceptFolderCard: View {
                         .foregroundColor(accentColor.opacity(0.9))
                         .padding(.horizontal, 8)
                         .padding(.vertical, 4)
-                        .background(accentColor.opacity(0.08))
+                        .background(accentColor.opacity(0.12))
                         .clipShape(Capsule())
 
                     
                         if !concept.isCustom {
                             Text("OPTIONAL")
-                                .font(.system(size: 9, weight: .bold))
+                                .font(.system(size: 9, weight: .black))
                                 .kerning(0.5)
-                                .foregroundColor(ClarityTheme.accentCyan)
+                                .foregroundColor(.cyan)
                                 .padding(.horizontal, 7)
                                 .padding(.vertical, 4)
-                                .background(ClarityTheme.accentCyan.opacity(0.08))
+                                .background(Color.cyan.opacity(0.12))
                                 .clipShape(Capsule())
                         } else {
                             HStack(spacing: 3) {
                                 Image(systemName: "person.badge.plus")
-                                    .font(.system(size: 8, weight: .bold))
+                                    .font(.system(size: 8, weight: .black))
                                 Text("CUSTOM")
-                                    .font(.system(size: 9, weight: .bold))
+                                    .font(.system(size: 9, weight: .black))
                                     .kerning(0.5)
                             }
-                            .foregroundColor(ClarityTheme.accentPurple)
+                            .foregroundColor(.purple)
                             .padding(.horizontal, 7)
                             .padding(.vertical, 4)
-                            .background(ClarityTheme.accentPurple.opacity(0.08))
+                            .background(Color.purple.opacity(0.12))
                             .clipShape(Capsule())
                         }
                     }
@@ -297,11 +298,11 @@ struct ConceptFolderCard: View {
 
                 Image(systemName: "chevron.right")
                     .font(.system(size: 13, weight: .bold))
-                    .foregroundStyle(.tertiary)
+                    .foregroundColor(.white.opacity(0.25))
             }
             .padding(.horizontal, 16)
             .frame(maxWidth: .infinity, minHeight: 76)
-            .background(ClarityTheme.cardBackground)
+            .background(Color(red: 0.09, green: 0.09, blue: 0.13))
             .clipShape(
                 UnevenRoundedRectangle(
                     topLeadingRadius: 0,
@@ -312,7 +313,7 @@ struct ConceptFolderCard: View {
             )
         }
         .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
-        .shadow(color: accentColor.opacity(0.12), radius: 10, x: 0, y: 4)
+        .shadow(color: accentColor.opacity(0.2), radius: 12, x: 0, y: 5)
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(concept.title), \(concept.topics.count) topic\(concept.topics.count == 1 ? "" : "s"), \(concept.isCustom ? "custom" : "optional")")
         .accessibilityHint("Double tap to view topics")
@@ -325,29 +326,30 @@ struct EmptyLibraryState: View {
     var body: some View {
         VStack(spacing: 20) {
             ZStack {
+          
                 Circle()
-                    .stroke(Color.primary.opacity(0.04), lineWidth: 1)
+                    .stroke(Color.white.opacity(0.05), lineWidth: 1)
                     .frame(width: 100, height: 100)
 
                 Circle()
-                    .fill(Color.primary.opacity(0.03))
+                    .fill(Color.white.opacity(0.04))
                     .frame(width: 84, height: 84)
 
                 Image(systemName: filter == .custom ? "person.crop.circle.badge.plus" : "folder.badge.questionmark")
                     .font(.system(size: 34, weight: .medium))
-                    .foregroundStyle(.tertiary)
+                    .foregroundColor(.white.opacity(0.3))
             }
 
             VStack(spacing: 8) {
                 Text("Nothing Here Yet")
-                    .font(.title3.weight(.bold))
-                    .foregroundStyle(.primary)
+                    .font(.system(.title3, weight: .bold))
+                    .foregroundColor(.white)
 
                 Text(filter == .custom
                      ? "Tap + to create your first custom concept folder."
                      : "No concepts match this filter.")
-                    .font(.subheadline.weight(.medium))
-                    .foregroundStyle(.secondary)
+                    .font(.system(.subheadline, weight: .medium))
+                    .foregroundColor(.white.opacity(0.45))
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 40)
             }
@@ -364,20 +366,21 @@ struct TopicListView: View {
 
     var body: some View {
         ZStack {
-            ClarityTheme.screenBackground.ignoresSafeArea()
+            Color.black.ignoresSafeArea()
 
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 16) {
 
     
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("\(concept.topics.count) topic\(concept.topics.count == 1 ? "" : "s") available")
-                            .font(.caption.weight(.semibold))
-                            .foregroundStyle(.tertiary)
+                        Text("\(concept.topics.count) TOPIC\(concept.topics.count == 1 ? "" : "S") AVAILABLE")
+                            .font(.system(size: 11, weight: .black))
+                            .foregroundColor(.white.opacity(0.35))
+                            .kerning(0.8)
 
                         Text("Select a topic to test your recall.")
-                            .font(.subheadline.weight(.medium))
-                            .foregroundStyle(.secondary)
+                            .font(.system(.subheadline, weight: .medium))
+                            .foregroundColor(.white.opacity(0.6))
                     }
                     .padding(.horizontal)
                     .padding(.top, 10)
@@ -418,11 +421,11 @@ struct TopicListView: View {
                 NavigationLink(destination: CreateTopicView(concept: concept)) {
                     ZStack {
                         Circle()
-                            .fill(ClarityTheme.accentPurple.opacity(0.12))
+                            .fill(Color.purple.opacity(0.15))
                             .frame(width: 36, height: 36)
                         Image(systemName: "plus")
                             .font(.system(size: 14, weight: .bold))
-                            .foregroundColor(ClarityTheme.accentPurple)
+                            .foregroundColor(.purple)
                     }
                 }
                 .simultaneousGesture(TapGesture().onEnded {
@@ -455,7 +458,7 @@ struct TopicRowCard: View {
            
                 ZStack {
                     Circle()
-                        .fill(topic.difficulty.color.opacity(0.10))
+                        .fill(topic.difficulty.color.opacity(0.12))
                         .frame(width: 44, height: 44)
                     Image(systemName: "brain.head.profile")
                         .font(.system(size: 18, weight: .semibold))
@@ -464,22 +467,22 @@ struct TopicRowCard: View {
 
                 VStack(alignment: .leading, spacing: 5) {
                     Text(topic.title)
-                        .font(.headline.weight(.bold))
-                        .foregroundStyle(.primary)
+                        .font(.system(.headline, weight: .bold))
+                        .foregroundColor(.white)
                         .lineLimit(1)
 
                     Text(topic.quickHint)
-                        .font(.caption.weight(.medium))
-                        .foregroundStyle(.secondary)
+                        .font(.system(.caption, weight: .medium))
+                        .foregroundColor(.white.opacity(0.5))
                         .lineLimit(1)
 
                     Text(topic.difficultyRaw.uppercased())
-                        .font(.system(size: 9, weight: .bold))
+                        .font(.system(size: 9, weight: .black))
                         .kerning(0.5)
                         .foregroundColor(topic.difficulty.color)
                         .padding(.horizontal, 7)
                         .padding(.vertical, 3)
-                        .background(topic.difficulty.color.opacity(0.08))
+                        .background(topic.difficulty.color.opacity(0.12))
                         .clipShape(Capsule())
                 }
 
@@ -493,7 +496,7 @@ struct TopicRowCard: View {
                 } label: {
                     Image(systemName: topic.isBookmarked ? "bookmark.fill" : "bookmark")
                         .font(.system(size: 16, weight: .semibold))
-                        .foregroundColor(topic.isBookmarked ? ClarityTheme.accentYellow : Color(UIColor.tertiaryLabel))
+                        .foregroundColor(topic.isBookmarked ? .yellow : .white.opacity(0.25))
                         .scaleEffect(topic.isBookmarked ? 1.1 : 1.0)
                         .animation(.spring(response: 0.3, dampingFraction: 0.5), value: topic.isBookmarked)
                 }
@@ -504,17 +507,17 @@ struct TopicRowCard: View {
 
                 Image(systemName: "chevron.right")
                     .font(.system(size: 13, weight: .bold))
-                    .foregroundStyle(.quaternary)
+                    .foregroundColor(.white.opacity(0.2))
             }
             .padding(.horizontal, 14)
             .padding(.vertical, 14)
         }
         .background(
             ZStack {
-                ClarityTheme.cardBackground
+                Color(red: 0.09, green: 0.09, blue: 0.13)
                 if topic.isBookmarked {
                     LinearGradient(
-                        colors: [ClarityTheme.accentYellow.opacity(0.04), .clear],
+                        colors: [Color.yellow.opacity(0.06), .clear],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     )
@@ -525,11 +528,11 @@ struct TopicRowCard: View {
         .overlay(
             RoundedRectangle(cornerRadius: 16, style: .continuous)
                 .stroke(
-                    topic.isBookmarked ? ClarityTheme.accentYellow.opacity(0.18) : Color.primary.opacity(0.05),
+                    topic.isBookmarked ? Color.yellow.opacity(0.25) : Color.white.opacity(0.07),
                     lineWidth: 1
                 )
         )
-        .shadow(color: topic.isBookmarked ? ClarityTheme.accentYellow.opacity(0.08) : topic.difficulty.color.opacity(0.06), radius: 8, x: 0, y: 3)
+        .shadow(color: topic.isBookmarked ? Color.yellow.opacity(0.12) : topic.difficulty.color.opacity(0.1), radius: 8, x: 0, y: 3)
         .animation(.easeInOut(duration: 0.2), value: topic.isBookmarked)
     }
 }

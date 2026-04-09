@@ -1,6 +1,5 @@
 
 
-
 import SwiftUI
 
 struct RecentTopicCard: View {
@@ -8,7 +7,18 @@ struct RecentTopicCard: View {
     let lastScore: Int
 
     private var scoreColor: Color {
-        lastScore >= 80 ? ClarityTheme.accentGreen : (lastScore >= 50 ? ClarityTheme.accentOrange : ClarityTheme.accentRed)
+        lastScore >= 80 ? .green : (lastScore >= 50 ? .orange : .red)
+    }
+
+    private var cardGradient: LinearGradient {
+        LinearGradient(
+            colors: [
+                topic.difficulty.color.opacity(0.35),
+                topic.difficulty.color.opacity(0.08)
+            ],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
     }
 
     var body: some View {
@@ -22,7 +32,7 @@ struct RecentTopicCard: View {
                 VStack(alignment: .trailing, spacing: 2) {
                     Text("Last Score")
                         .font(.system(size: 10, weight: .bold))
-                        .foregroundStyle(.secondary)
+                        .foregroundColor(.white.opacity(0.5))
                     Text("\(lastScore)%")
                         .font(.system(.headline, weight: .heavy))
                         .foregroundColor(scoreColor)
@@ -33,8 +43,8 @@ struct RecentTopicCard: View {
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(topic.title)
-                    .font(.subheadline.weight(.bold))
-                    .foregroundStyle(.primary)
+                    .font(.system(.subheadline, weight: .bold))
+                    .foregroundColor(.white)
                     .lineLimit(2)
                     .multilineTextAlignment(.leading)
 
@@ -47,13 +57,10 @@ struct RecentTopicCard: View {
         .padding(16)
         .background(
             ZStack {
-                ClarityTheme.cardBackground
-                RadialGradient(
-                    colors: [topic.difficulty.color.opacity(0.10), .clear],
-                    center: .topLeading,
-                    startRadius: 0,
-                    endRadius: 120
-                )
+                
+                Color(red: 0.07, green: 0.07, blue: 0.12)
+    
+                cardGradient
             }
         )
         .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
@@ -62,8 +69,8 @@ struct RecentTopicCard: View {
                 .strokeBorder(
                     LinearGradient(
                         colors: [
-                            topic.difficulty.color.opacity(0.25),
-                            Color.primary.opacity(0.04)
+                            topic.difficulty.color.opacity(0.4),
+                            Color.white.opacity(0.05)
                         ],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
@@ -71,6 +78,6 @@ struct RecentTopicCard: View {
                     lineWidth: 1
                 )
         )
-        .shadow(color: topic.difficulty.color.opacity(0.12), radius: 10, x: 0, y: 4)
+        .shadow(color: topic.difficulty.color.opacity(0.2), radius: 12, x: 0, y: 6)
     }
 }

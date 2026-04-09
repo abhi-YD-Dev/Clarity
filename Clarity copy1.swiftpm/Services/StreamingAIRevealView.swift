@@ -22,10 +22,10 @@ struct StreamingAIRevealView: View {
 
     private var scoreColor: Color {
         switch displayScore {
-        case 80...100: return ClarityTheme.accentGreen
-        case 60...79:  return ClarityTheme.accentCyan
-        case 40...59:  return ClarityTheme.accentOrange
-        default:       return ClarityTheme.accentRed
+        case 80...100: return .green
+        case 60...79:  return .cyan
+        case 40...59:  return .orange
+        default:       return .red
         }
     }
 
@@ -40,7 +40,7 @@ struct StreamingAIRevealView: View {
                 EmptyView()
 
             case .preparing:
-                statusView(icon: "hourglass", label: "Initializing ClarityAI session...", color: ClarityTheme.accentPurple)
+                statusView(icon: "hourglass", label: "Initializing ClarityAI session...", color: .purple)
 
             case .toolCalling:
                 toolCallingView
@@ -74,22 +74,22 @@ struct StreamingAIRevealView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text("THE REALITY CHECK")
                     .font(.caption.weight(.bold))
-                    .foregroundStyle(.secondary)
+                    .foregroundColor(.white.opacity(0.5))
                 Text("AI Evaluation")
-                    .font(.title2.weight(.bold))
-                    .foregroundStyle(.primary)
+                    .font(.title2.weight(.heavy))
+                    .foregroundColor(.white)
             }
             Spacer()
             if streamingState == .streaming {
                 HStack(spacing: 6) {
                     Circle()
-                        .fill(ClarityTheme.accentCyan)
+                        .fill(Color.cyan)
                         .frame(width: 8, height: 8)
                         .scaleEffect(pulseGlow ? 1.3 : 0.8)
                         .animation(.easeInOut(duration: 0.5).repeatForever(), value: pulseGlow)
                     Text("LIVE")
-                        .font(.caption2.weight(.bold))
-                        .foregroundColor(ClarityTheme.accentCyan)
+                        .font(.caption2.weight(.black))
+                        .foregroundColor(.cyan)
                 }
             }
         }
@@ -102,7 +102,7 @@ struct StreamingAIRevealView: View {
                 .foregroundColor(color)
             Text(label)
                 .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .foregroundColor(.white.opacity(0.6))
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 30)
@@ -110,9 +110,9 @@ struct StreamingAIRevealView: View {
 
     private var toolCallingView: some View {
         VStack(alignment: .leading, spacing: 12) {
-            toolCallRow(icon: "doc.text.magnifyingglass", label: "Extracting concept rubric from model answer...", color: ClarityTheme.accentCyan)
-            toolCallRow(icon: "waveform.path.ecg",        label: "Profiling your answer quality...", color: ClarityTheme.accentPurple)
-            toolCallRow(icon: "brain",                    label: "Building evaluation context...", color: ClarityTheme.accentOrange)
+            toolCallRow(icon: "doc.text.magnifyingglass", label: "Extracting concept rubric from model answer...", color: .cyan)
+            toolCallRow(icon: "waveform.path.ecg",        label: "Profiling your answer quality...", color: .purple)
+            toolCallRow(icon: "brain",                    label: "Building evaluation context...", color: .orange)
         }
         .padding(.vertical, 8)
     }
@@ -120,14 +120,14 @@ struct StreamingAIRevealView: View {
     private func toolCallRow(icon: String, label: String, color: Color) -> some View {
         HStack(spacing: 12) {
             ZStack {
-                Circle().fill(color.opacity(0.12)).frame(width: 36, height: 36)
+                Circle().fill(color.opacity(0.15)).frame(width: 36, height: 36)
                 Image(systemName: icon)
                     .font(.subheadline.weight(.semibold))
                     .foregroundColor(color)
             }
             Text(label)
                 .font(.subheadline.weight(.medium))
-                .foregroundStyle(.primary)
+                .foregroundColor(.white.opacity(0.8))
             Spacer()
             ProgressView().scaleEffect(0.8).tint(color)
         }
@@ -138,12 +138,12 @@ struct StreamingAIRevealView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text("AI ACCURACY SCORE")
                     .font(.caption2.weight(.bold))
-                    .foregroundStyle(.secondary)
+                    .foregroundColor(.white.opacity(0.5))
 
                 Text("\(displayScore)%")
                     .font(.system(size: 72, weight: .black, design: .rounded))
                     .foregroundColor(scoreColor)
-                    .shadow(color: scoreColor.opacity(0.35), radius: 20)
+                    .shadow(color: scoreColor.opacity(0.4), radius: 20)
                     .contentTransition(.numericText())
                     .animation(.spring(response: 0.6, dampingFraction: 0.7), value: displayScore)
             }
@@ -152,12 +152,12 @@ struct StreamingAIRevealView: View {
             let signal = finalResult?.recallSignal ?? partial?.recallSignal
             if let signal = signal {
                 Text(signal)
-                    .font(.caption.weight(.bold))
+                    .font(.caption.weight(.black)) // HIG
                     .foregroundColor(scoreColor)
                     .padding(.horizontal, 12).padding(.vertical, 6)
-                    .background(scoreColor.opacity(0.12))
+                    .background(scoreColor.opacity(0.15))
                     .clipShape(Capsule())
-                    .overlay(Capsule().stroke(scoreColor.opacity(0.25), lineWidth: 1))
+                    .overlay(Capsule().stroke(scoreColor.opacity(0.3), lineWidth: 1))
                     .transition(.scale.combined(with: .opacity))
             }
         }
@@ -167,33 +167,35 @@ struct StreamingAIRevealView: View {
     private func streamingFieldsSection(partial: AIAnalysisResult.PartiallyGenerated) -> some View {
         VStack(alignment: .leading, spacing: 16) {
 
+           
             if let concepts = partial.missingConcepts, !concepts.isEmpty {
-                fieldCard(icon: "exclamationmark.triangle.fill", label: "MISSING CONCEPTS", color: ClarityTheme.accentOrange) {
+                fieldCard(icon: "exclamationmark.triangle.fill", label: "MISSING CONCEPTS", color: .orange) {
                     VStack(alignment: .leading, spacing: 6) {
                         ForEach(concepts, id: \.self) { concept in
                             HStack(spacing: 8) {
-                                Circle().fill(ClarityTheme.accentOrange).frame(width: 6, height: 6)
+                                Circle().fill(Color.orange).frame(width: 6, height: 6)
                                 Text(concept)
-                                    .font(.subheadline.weight(.medium))
-                                    .foregroundStyle(.primary)
+                                    .font(.subheadline.weight(.medium)) // HIG
+                                    .foregroundColor(.white)
                             }
                             .transition(.move(edge: .leading).combined(with: .opacity))
                         }
                     }
                 }
             } else {
-                shimmerPlaceholder(label: "MISSING CONCEPTS", color: ClarityTheme.accentOrange)
+                shimmerPlaceholder(label: "MISSING CONCEPTS", color: .orange)
             }
 
+        
             if let claims = partial.incorrectClaims, !claims.isEmpty {
-                fieldCard(icon: "xmark.circle.fill", label: "INCORRECT CLAIMS", color: ClarityTheme.accentRed) {
+                fieldCard(icon: "xmark.circle.fill", label: "INCORRECT CLAIMS", color: .red) {
                     VStack(alignment: .leading, spacing: 6) {
                         ForEach(claims, id: \.self) { claim in
                             HStack(spacing: 8) {
-                                Circle().fill(ClarityTheme.accentRed).frame(width: 6, height: 6)
+                                Circle().fill(Color.red).frame(width: 6, height: 6)
                                 Text(claim)
-                                    .font(.subheadline.weight(.medium))
-                                    .foregroundStyle(.primary)
+                                    .font(.subheadline.weight(.medium)) // HIG
+                                    .foregroundColor(.white)
                             }
                         }
                     }
@@ -201,15 +203,15 @@ struct StreamingAIRevealView: View {
             }
 
             if let feedback = partial.constructiveFeedback, !feedback.isEmpty {
-                fieldCard(icon: "lightbulb.fill", label: "FEEDBACK", color: ClarityTheme.accentCyan) {
+                fieldCard(icon: "lightbulb.fill", label: "FEEDBACK", color: .cyan) {
                     Text(feedback)
                         .font(.subheadline.weight(.medium))
-                        .foregroundStyle(.primary)
+                        .foregroundColor(.white.opacity(0.9))
                         .lineSpacing(4)
                         .animation(.easeIn(duration: 0.2), value: feedback)
                 }
             } else {
-                shimmerPlaceholder(label: "FEEDBACK", color: ClarityTheme.accentCyan)
+                shimmerPlaceholder(label: "FEEDBACK", color: .cyan)
             }
         }
     }
@@ -219,14 +221,14 @@ struct StreamingAIRevealView: View {
         VStack(alignment: .leading, spacing: 16) {
 
             if !result.missingConcepts.isEmpty {
-                fieldCard(icon: "exclamationmark.triangle.fill", label: "MISSING CONCEPTS", color: ClarityTheme.accentOrange) {
+                fieldCard(icon: "exclamationmark.triangle.fill", label: "MISSING CONCEPTS", color: .orange) {
                     VStack(alignment: .leading, spacing: 6) {
                         ForEach(result.missingConcepts, id: \.self) { concept in
                             HStack(spacing: 8) {
-                                Circle().fill(ClarityTheme.accentOrange).frame(width: 6, height: 6)
+                                Circle().fill(Color.orange).frame(width: 6, height: 6)
                                 Text(concept)
-                                    .font(.subheadline.weight(.medium))
-                                    .foregroundStyle(.primary)
+                                    .font(.subheadline.weight(.medium)) // HIG
+                                    .foregroundColor(.white)
                             }
                         }
                     }
@@ -234,24 +236,24 @@ struct StreamingAIRevealView: View {
             }
 
             if !result.incorrectClaims.isEmpty {
-                fieldCard(icon: "xmark.circle.fill", label: "INCORRECT CLAIMS", color: ClarityTheme.accentRed) {
+                fieldCard(icon: "xmark.circle.fill", label: "INCORRECT CLAIMS", color: .red) {
                     VStack(alignment: .leading, spacing: 6) {
                         ForEach(result.incorrectClaims, id: \.self) { claim in
                             HStack(spacing: 8) {
-                                Circle().fill(ClarityTheme.accentRed).frame(width: 6, height: 6)
+                                Circle().fill(Color.red).frame(width: 6, height: 6)
                                 Text(claim)
-                                    .font(.subheadline.weight(.medium))
-                                    .foregroundStyle(.primary)
+                                    .font(.subheadline.weight(.medium)) // HIG
+                                    .foregroundColor(.white)
                             }
                         }
                     }
                 }
             }
 
-            fieldCard(icon: "lightbulb.fill", label: "FEEDBACK", color: ClarityTheme.accentCyan) {
+            fieldCard(icon: "lightbulb.fill", label: "FEEDBACK", color: .cyan) {
                 Text(result.constructiveFeedback)
-                    .font(.subheadline.weight(.medium))
-                    .foregroundStyle(.primary)
+                    .font(.subheadline.weight(.medium)) // HIG
+                    .foregroundColor(.white.opacity(0.9))
                     .lineSpacing(4)
             }
         }
@@ -271,7 +273,7 @@ struct StreamingAIRevealView: View {
                     .font(.footnote.weight(.bold))
                     .foregroundColor(color)
                 Text(label)
-                    .font(.caption2.weight(.bold))
+                    .font(.caption2.weight(.black))
                     .foregroundColor(color.opacity(0.8))
                     .kerning(0.5)
             }
@@ -279,44 +281,44 @@ struct StreamingAIRevealView: View {
         }
         .padding(14)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(color.opacity(0.05))
+        .background(color.opacity(0.07))
         .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).stroke(color.opacity(0.15), lineWidth: 1))
+        .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).stroke(color.opacity(0.2), lineWidth: 1))
         .transition(.move(edge: .bottom).combined(with: .opacity))
     }
 
     private func shimmerPlaceholder(label: String, color: Color) -> some View {
         HStack(spacing: 8) {
             Text(label)
-                .font(.caption2.weight(.bold))
+                .font(.caption2.weight(.black))
                 .foregroundColor(color.opacity(0.3))
                 .kerning(0.5)
             RoundedRectangle(cornerRadius: 4)
-                .fill(color.opacity(0.06))
+                .fill(color.opacity(0.08))
                 .frame(height: 12)
         }
         .padding(14)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(color.opacity(0.03))
+        .background(color.opacity(0.04))
         .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
     }
 
     private var calibrationGapSection: some View {
         VStack(spacing: 14) {
-            Divider().overlay(Color.primary.opacity(0.08))
+            Divider().overlay(Color.white.opacity(0.1))
 
             HStack(spacing: 0) {
                 if showPredicted {
-                    scoreColumn(label: "YOU PREDICTED", value: predictedScore, color: ClarityTheme.accentYellow)
-                    Divider().frame(height: 50).overlay(Color.primary.opacity(0.08))
+                    scoreColumn(label: "YOU PREDICTED", value: predictedScore, color: .yellow)
+                    Divider().frame(height: 50).overlay(Color.white.opacity(0.1))
                 }
-                scoreColumn(label: "CONFIDENCE", value: confidence, color: ClarityTheme.accentCyan)
-                Divider().frame(height: 50).overlay(Color.primary.opacity(0.08))
+                scoreColumn(label: "CONFIDENCE", value: confidence, color: .cyan)
+                Divider().frame(height: 50).overlay(Color.white.opacity(0.1))
                 scoreColumn(label: "AI SCORE", value: displayScore, color: scoreColor)
             }
 
             let gap = abs(gapValue)
-            let gapColor: Color = gap <= 10 ? ClarityTheme.accentGreen : (gap <= 25 ? ClarityTheme.accentOrange : ClarityTheme.accentRed)
+            let gapColor: Color = gap <= 10 ? .green : (gap <= 25 ? .orange : .red)
             let zoneLabel: String = {
                 if gapValue > 25  { return "Overconfident Zone" }
                 if gapValue < -25 { return "Underconfident Zone" }
@@ -327,26 +329,26 @@ struct StreamingAIRevealView: View {
 
             VStack(spacing: 6) {
                 Text("CLARITY GAP")
-                    .font(.caption2.weight(.bold))
-                    .foregroundStyle(.secondary)
+                    .font(.caption2.weight(.black))
+                    .foregroundColor(.white.opacity(0.4))
                     .kerning(0.5)
 
                 Text("\(gapValue > 0 ? "+" : "")\(gapValue) pts")
                     .font(.system(size: 48, weight: .black, design: .rounded))
                     .foregroundColor(gapColor)
-                    .shadow(color: gapColor.opacity(0.35), radius: 12)
+                    .shadow(color: gapColor.opacity(0.4), radius: 12)
                     .contentTransition(.numericText())
 
                 Text(zoneLabel)
                     .font(.subheadline.weight(.bold))
                     .foregroundColor(gapColor)
                     .padding(.horizontal, 14).padding(.vertical, 6)
-                    .background(gapColor.opacity(0.10))
+                    .background(gapColor.opacity(0.12))
                     .clipShape(Capsule())
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, 12)
-            .background(gapColor.opacity(0.04))
+            .background(gapColor.opacity(0.05))
             .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
         }
         .animation(.spring(response: 0.6, dampingFraction: 0.8), value: streamingState == .complete)
@@ -356,11 +358,11 @@ struct StreamingAIRevealView: View {
             VStack(spacing: 4) {
                 Text(label)
                     .font(.caption2.weight(.bold))
-                    .foregroundStyle(.secondary)
+                    .foregroundColor(.white.opacity(0.4))
                     .kerning(0.3)
                     .multilineTextAlignment(.center)
                 Text("\(value)%")
-                    .font(.title2.weight(.bold))
+                    .font(.title2.weight(.heavy))
                     .fontDesign(.rounded)
                     .foregroundColor(color)
             }
@@ -375,32 +377,32 @@ struct StreamingAIRevealView: View {
                 HStack(spacing: 8) {
                     Image(systemName: "cpu.fill")
                         .font(.caption2)
-                        .foregroundColor(ClarityTheme.accentPurple.opacity(0.7))
+                        .foregroundColor(.purple.opacity(0.7))
                     Text("ClarityAI Profile")
                         .font(.caption2.weight(.semibold))
-                        .foregroundStyle(.secondary)
+                        .foregroundColor(.white.opacity(0.5))
                     Spacer()
                     Text("\(String(format: "%.0f", profile.latencyMilliseconds))ms")
                         .font(.caption2.weight(.bold).monospaced())
-                        .foregroundColor(ClarityTheme.accentPurple.opacity(0.7))
+                        .foregroundColor(.purple.opacity(0.7))
                     Image(systemName: showProfile ? "chevron.up" : "chevron.down")
                         .font(.caption2)
-                        .foregroundStyle(.tertiary)
+                        .foregroundColor(.white.opacity(0.3))
                 }
                 .padding(10)
-                .background(ClarityTheme.accentPurple.opacity(0.04))
+                .background(Color.purple.opacity(0.05))
                 .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-                .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).stroke(ClarityTheme.accentPurple.opacity(0.12), lineWidth: 1))
+                .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).stroke(Color.purple.opacity(0.15), lineWidth: 1))
             }
             .buttonStyle(.plain)
 
             if showProfile {
                 Text(profile.summary)
-                    .font(.caption2.monospaced())
-                    .foregroundStyle(.secondary)
+                    .font(.caption2.monospaced()) // HIG
+                    .foregroundColor(.white.opacity(0.5))
                     .padding(10)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(ClarityTheme.accentPurple.opacity(0.04))
+                    .background(Color.purple.opacity(0.05))
                     .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                     .transition(.move(edge: .top).combined(with: .opacity))
             }
@@ -411,13 +413,13 @@ struct StreamingAIRevealView: View {
         VStack(spacing: 16) {
             Image(systemName: "exclamationmark.triangle.fill")
                 .font(.largeTitle)
-                .foregroundColor(ClarityTheme.accentOrange)
+                .foregroundColor(.orange)
             Text("Analysis Incomplete")
                 .font(.headline.weight(.bold))
-                .foregroundStyle(.primary)
+                .foregroundColor(.white)
             Text(message)
                 .font(.caption) 
-                .foregroundStyle(.secondary)
+                .foregroundColor(.white.opacity(0.5))
                 .multilineTextAlignment(.center)
         }
         .frame(maxWidth: .infinity)

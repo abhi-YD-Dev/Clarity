@@ -20,7 +20,7 @@ struct CreateConceptView: View {
     var body: some View {
         ZStack {
             
-            ClarityTheme.screenBackground.ignoresSafeArea()
+            Color(red: 0.04, green: 0.04, blue: 0.07).ignoresSafeArea()
 
             
             Ellipse()
@@ -32,7 +32,7 @@ struct CreateConceptView: View {
 
            
             Ellipse()
-                .fill(ClarityTheme.accentCyan.opacity(0.07))
+                .fill(Color.cyan.opacity(0.07))
                 .frame(width: 260, height: 180)
                 .blur(radius: 50)
                 .offset(x: 120, y: 280)
@@ -47,7 +47,7 @@ struct CreateConceptView: View {
                         .frame(width: 28, height: 4)
                     Text("1 / 1")
                         .font(.system(size: 12, weight: .bold, design: .monospaced))
-                        .foregroundStyle(.tertiary)
+                        .foregroundColor(.white.opacity(0.3))
                 }
                 .padding(.top, 20)
                 .padding(.horizontal, 32)
@@ -71,7 +71,7 @@ struct CreateConceptView: View {
 
                         Text("What are you\nstudying?")
                             .font(.system(size: 42, weight: .black))
-                            .foregroundStyle(.primary)
+                            .foregroundColor(.white)
                             .lineSpacing(2)
                     }
                     .offset(y: appeared ? 0 : 20)
@@ -81,10 +81,10 @@ struct CreateConceptView: View {
                     VStack(alignment: .leading, spacing: 0) {
                         TextField("", text: $title, prompt:
                             Text("e.g. Neuroscience…")
-                                .foregroundStyle(.quaternary)
+                                .foregroundColor(.white.opacity(0.18))
                         )
                         .font(.system(size: 28, weight: .semibold))
-                        .foregroundStyle(.primary)
+                        .foregroundColor(.white)
                         .tint(Color(red: 1.0, green: 0.7, blue: 0.2))
                         .autocorrectionDisabled()
 
@@ -92,7 +92,7 @@ struct CreateConceptView: View {
                         Rectangle()
                             .fill(
                                 title.isEmpty
-                                    ? Color.primary.opacity(0.12)
+                                    ? Color.white.opacity(0.12)
                                     : Color(red: 1.0, green: 0.7, blue: 0.2)
                             )
                             .frame(height: title.isEmpty ? 1 : 2)
@@ -110,7 +110,7 @@ struct CreateConceptView: View {
                             Text("Tap Create to continue")
                                 .font(.system(size: 12, weight: .medium))
                         }
-                        .foregroundStyle(.tertiary)
+                        .foregroundColor(.white.opacity(0.3))
                         .transition(.move(edge: .bottom).combined(with: .opacity))
                     }
                 }
@@ -134,14 +134,14 @@ struct CreateConceptView: View {
                         Image(systemName: "arrow.right")
                             .font(.system(size: 16, weight: .bold))
                     }
-                    .foregroundStyle(title.isEmpty ? Color(UIColor.tertiaryLabel) : Color(UIColor.systemBackground))
+                    .foregroundColor(title.isEmpty ? .white.opacity(0.2) : Color(red: 0.06, green: 0.06, blue: 0.1))
                     .padding(.horizontal, 28)
                     .padding(.vertical, 20)
                     .background(
                         RoundedRectangle(cornerRadius: 20, style: .continuous)
                             .fill(
                                 title.isEmpty
-                                    ? Color.primary.opacity(0.05)
+                                    ? Color.white.opacity(0.05)
                                     : Color(red: 1.0, green: 0.75, blue: 0.2)
                             )
                     )
@@ -199,11 +199,11 @@ struct CreateTopicView: View {
 
     private var stepConfig: (question: String, sub: String, icon: String, color: Color, tag: String) {
         switch currentStep {
-        case 0: return ("What's the\ntopic called?",    "Give it a sharp, clear name.",                  "textformat.abc",       ClarityTheme.accentCyan,                              "TITLE")
+        case 0: return ("What's the\ntopic called?",    "Give it a sharp, clear name.",                  "textformat.abc",       .cyan,                              "TITLE")
         case 1: return ("What will you\nask yourself?", "Write the question you'll answer from memory.",  "questionmark.bubble",  Color(red: 0.5, green: 0.3, blue: 1.0), "QUESTION")
         case 2: return ("Any quick\nhints?",            "A nudge — not the answer.",                     "lightbulb",            Color(red: 0.9, green: 0.65, blue: 0.1), "HINT")
         case 3: return ("How hard\nis it?",             "Difficulty shapes your calibration scoring.",   "dial.medium",          Color(red: 0.2, green: 0.8, blue: 0.5), "DIFFICULTY")
-        case 4: return ("Add model\nsolutions.",        "What's the correct answer? Use text, image or voice.", "checkmark.seal", ClarityTheme.accentPurple,                            "SOLUTIONS")
+        case 4: return ("Add model\nsolutions.",        "What's the correct answer? Use text, image or voice.", "checkmark.seal", .purple,                            "SOLUTIONS")
         default: return ("", "", "", .white, "")
         }
     }
@@ -222,7 +222,7 @@ struct CreateTopicView: View {
     var body: some View {
         ZStack {
             
-            ClarityTheme.screenBackground.ignoresSafeArea()
+            Color(red: 0.04, green: 0.04, blue: 0.07).ignoresSafeArea()
 
             
             Ellipse()
@@ -300,9 +300,9 @@ struct CreateTopicView: View {
                     Button { dismiss() } label: {
                         Image(systemName: "xmark")
                             .font(.system(size: 13, weight: .bold))
-                            .foregroundStyle(.secondary)
+                            .foregroundColor(.white.opacity(0.4))
                             .frame(width: 34, height: 34)
-                            .background(Color.primary.opacity(0.06))
+                            .background(Color.white.opacity(0.06))
                             .clipShape(Circle())
                     }
                     .buttonStyle(.plain)
@@ -317,7 +317,7 @@ struct CreateTopicView: View {
                     Spacer()
                     Text("\(currentStep + 1) of \(totalSteps)")
                         .font(.system(size: 12, weight: .bold, design: .monospaced))
-                        .foregroundStyle(.tertiary)
+                        .foregroundColor(.white.opacity(0.3))
                     Spacer()
                 }
 
@@ -325,7 +325,7 @@ struct CreateTopicView: View {
                 HStack(spacing: 5) {
                     ForEach(0..<totalSteps, id: \.self) { i in
                         Capsule()
-                            .fill(i <= currentStep ? stepConfig.color : Color.primary.opacity(0.1))
+                            .fill(i <= currentStep ? stepConfig.color : Color.white.opacity(0.1))
                             .frame(height: 3)
                             .animation(.spring(response: 0.4), value: currentStep)
                     }
@@ -370,13 +370,13 @@ struct CreateTopicView: View {
 
                     Text(stepConfig.question)
                         .font(.system(size: 38, weight: .black))
-                        .foregroundStyle(.primary)
+                        .foregroundColor(.white)
                         .lineSpacing(1)
                         .fixedSize(horizontal: false, vertical: true)
 
                     Text(stepConfig.sub)
                         .font(.system(.subheadline, weight: .medium))
-                        .foregroundStyle(.tertiary)
+                        .foregroundColor(.white.opacity(0.35))
                 }
 
               
@@ -384,7 +384,7 @@ struct CreateTopicView: View {
                     if multiline {
                         TextEditor(text: binding)
                             .font(.system(size: 22, weight: .semibold))
-                            .foregroundStyle(.primary)
+                            .foregroundColor(.white)
                             .tint(stepConfig.color)
                             .scrollContentBackground(.hidden)
                             .frame(minHeight: 90, maxHeight: 140)
@@ -392,10 +392,10 @@ struct CreateTopicView: View {
                     } else {
                         TextField("", text: binding, prompt:
                             Text("Type here…")
-                                .foregroundStyle(.quaternary)
+                                .foregroundColor(.white.opacity(0.15))
                         )
                         .font(.system(size: 26, weight: .semibold))
-                        .foregroundStyle(.primary)
+                        .foregroundColor(.white)
                         .tint(stepConfig.color)
                         .autocorrectionDisabled()
                     }
@@ -404,7 +404,7 @@ struct CreateTopicView: View {
                     Rectangle()
                         .fill(
                             binding.wrappedValue.isEmpty
-                                ? Color.primary.opacity(0.1)
+                                ? Color.white.opacity(0.1)
                                 : stepConfig.color
                         )
                         .frame(height: binding.wrappedValue.isEmpty ? 1 : 2)
@@ -438,12 +438,12 @@ struct CreateTopicView: View {
 
                     Text(stepConfig.question)
                         .font(.system(size: 38, weight: .black))
-                        .foregroundStyle(.primary)
+                        .foregroundColor(.white)
                         .fixedSize(horizontal: false, vertical: true)
 
                     Text(stepConfig.sub)
                         .font(.system(.subheadline, weight: .medium))
-                        .foregroundStyle(.tertiary)
+                        .foregroundColor(.white.opacity(0.35))
                 }
 
                 VStack(spacing: 14) {
@@ -466,11 +466,11 @@ struct CreateTopicView: View {
                                 VStack(alignment: .leading, spacing: 3) {
                                     Text(diff.rawValue.capitalized)
                                         .font(.system(.headline, weight: .bold))
-                                        .foregroundColor(difficulty == diff ? .white : Color.secondary)
+                                        .foregroundColor(difficulty == diff ? .white : .white.opacity(0.55))
 
                                     Text(difficultySubtitle(diff))
                                         .font(.system(.caption, weight: .medium))
-                                        .foregroundStyle(.tertiary)
+                                        .foregroundColor(.white.opacity(0.3))
                                 }
 
                                 Spacer()
@@ -488,13 +488,13 @@ struct CreateTopicView: View {
                                     .fill(
                                         difficulty == diff
                                             ? diff.color.opacity(0.1)
-                                            : Color.primary.opacity(0.04)
+                                            : Color.white.opacity(0.04)
                                     )
                             )
                             .overlay(
                                 RoundedRectangle(cornerRadius: 18, style: .continuous)
                                     .stroke(
-                                        difficulty == diff ? diff.color.opacity(0.4) : Color.primary.opacity(0.07),
+                                        difficulty == diff ? diff.color.opacity(0.4) : Color.white.opacity(0.07),
                                         lineWidth: 1
                                     )
                             )
@@ -538,11 +538,11 @@ struct CreateTopicView: View {
 
                     Text(stepConfig.question)
                         .font(.system(size: 34, weight: .black))
-                        .foregroundStyle(.primary)
+                        .foregroundColor(.white)
 
                     Text(stepConfig.sub)
                         .font(.system(.subheadline, weight: .medium))
-                        .foregroundStyle(.tertiary)
+                        .foregroundColor(.white.opacity(0.35))
                 }
                 .padding(.top, 20)
 
@@ -552,7 +552,7 @@ struct CreateTopicView: View {
                             ForEach(solutions) { solution in
                                 SolutionChipView(
                                     media: solution,
-                                    accentColor: solution.type == .text ? ClarityTheme.accentCyan : ClarityTheme.accentPurple
+                                    accentColor: solution.type == .text ? .cyan : .purple
                                 ) {
                                     solutions.removeAll { $0.id == solution.id }
                                 }
@@ -566,10 +566,10 @@ struct CreateTopicView: View {
                         VStack(spacing: 10) {
                             Image(systemName: "tray")
                                 .font(.system(size: 28))
-                                .foregroundStyle(.quaternary)
+                                .foregroundColor(.white.opacity(0.12))
                             Text("No solutions yet")
                                 .font(.system(.caption, weight: .medium))
-                                .foregroundStyle(.quaternary)
+                                .foregroundColor(.white.opacity(0.2))
                         }
                         Spacer()
                     }
@@ -578,8 +578,8 @@ struct CreateTopicView: View {
 
                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
 
-                    MediaInputButton(icon: "text.cursor", label: "Text", color: ClarityTheme.accentCyan) { showingTextAdd = true }
-                    MediaInputButton(icon: "camera.viewfinder", label: "Image", color: ClarityTheme.accentPurple) {
+                    MediaInputButton(icon: "text.cursor", label: "Text", color: .cyan) { showingTextAdd = true }
+                    MediaInputButton(icon: "camera.viewfinder", label: "Image", color: .purple) {
                         showingImageActionSheet = true
                         HapticManager.shared.selection()
                     }
@@ -603,16 +603,16 @@ struct CreateTopicView: View {
                             Text(voiceRecorder.isRecording ? "Stop" : "Voice")
                                 .font(.system(size: 12, weight: .bold))
                         }
-                        .foregroundColor(voiceRecorder.isRecording ? .white : ClarityTheme.accentOrange)
+                        .foregroundColor(voiceRecorder.isRecording ? .white : .orange)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 16)
                         .background(
                             RoundedRectangle(cornerRadius: 16, style: .continuous)
-                                .fill(voiceRecorder.isRecording ? Color.red : ClarityTheme.accentOrange.opacity(0.1))
+                                .fill(voiceRecorder.isRecording ? Color.red : Color.orange.opacity(0.1))
                         )
                         .overlay(
                             RoundedRectangle(cornerRadius: 16, style: .continuous)
-                                .stroke(voiceRecorder.isRecording ? Color.red.opacity(0.6) : ClarityTheme.accentOrange.opacity(0.2), lineWidth: 1)
+                                .stroke(voiceRecorder.isRecording ? Color.red.opacity(0.6) : Color.orange.opacity(0.2), lineWidth: 1)
                         )
                         .scaleEffect(voiceRecorder.isRecording ? 1.04 : 1.0)
                         .animation(voiceRecorder.isRecording ? .easeInOut(duration: 0.7).repeatForever() : .default, value: voiceRecorder.isRecording)
@@ -643,12 +643,12 @@ struct CreateTopicView: View {
                         Text("Back")
                             .font(.system(.headline, weight: .bold))
                     }
-                    .foregroundColor(currentStep > 0 ? ClarityTheme.screenBackground : Color(UIColor.quaternaryLabel))
+                    .foregroundColor(currentStep > 0 ? Color(red: 0.05, green: 0.05, blue: 0.08) : .white.opacity(0.2))
                     .padding(.horizontal, 24)
                     .padding(.vertical, 14)
                     .background(
                         Capsule()
-                            .fill(currentStep > 0 ? Color.primary.opacity(0.8) : Color.primary.opacity(0.06))
+                            .fill(currentStep > 0 ? Color.white.opacity(0.8) : Color.white.opacity(0.06))
                     )
                 }
                 .disabled(currentStep == 0) 
@@ -670,12 +670,12 @@ struct CreateTopicView: View {
                         Image(systemName: currentStep == totalSteps - 1 ? "checkmark" : "arrow.right")
                             .font(.system(size: 14, weight: .bold))
                     }
-                    .foregroundColor(canAdvance ? ClarityTheme.screenBackground : Color(UIColor.quaternaryLabel))
+                    .foregroundColor(canAdvance ? Color(red: 0.05, green: 0.05, blue: 0.08) : .white.opacity(0.2))
                     .padding(.horizontal, 24)
                     .padding(.vertical, 14)
                     .background(
                         Capsule()
-                            .fill(canAdvance ? stepConfig.color : Color.primary.opacity(0.06))
+                            .fill(canAdvance ? stepConfig.color : Color.white.opacity(0.06))
                     )
                     .shadow(
                         color: canAdvance ? stepConfig.color.opacity(0.45) : .clear,

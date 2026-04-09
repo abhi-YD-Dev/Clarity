@@ -10,9 +10,9 @@ enum Difficulty: String, Codable, CaseIterable {
     
     var color: Color {
         switch self {
-        case .easy:   return ClarityTheme.accentGreen
-        case .medium: return ClarityTheme.accentOrange
-        case .hard:   return ClarityTheme.accentRed
+        case .easy: return .green
+        case .medium: return .orange
+        case .hard: return .red
         }
     }
 }
@@ -31,8 +31,8 @@ enum TestZone: String, Codable {
     var color: Color {
         switch self {
         case .underconfident: return .blue
-        case .zoneOfClarity:  return ClarityTheme.accentGreen
-        case .overconfident:  return ClarityTheme.accentOrange
+        case .zoneOfClarity: return .green
+        case .overconfident: return .orange 
         }
     }
 }

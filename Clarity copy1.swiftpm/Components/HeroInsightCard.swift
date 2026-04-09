@@ -84,11 +84,11 @@ struct HeroInsightCard: View {
     }
 
     private var statusColor: Color {
-        if filteredAttempts.isEmpty { return Color.secondary }
+        if filteredAttempts.isEmpty { return .white.opacity(0.5) }
         let gap = avgGap
-        if abs(gap) <= 10 { return ClarityTheme.accentGreen }
+        if abs(gap) <= 10 { return .green }
         if gap < -10 { return .blue }
-        return ClarityTheme.accentOrange
+        return .orange
     }
 
     private var statusLabel: String {
@@ -123,6 +123,7 @@ struct HeroInsightCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
 
+            
             Button {
                 if !recentAttempts.isEmpty {
                     toggleExpansion()
@@ -137,7 +138,7 @@ struct HeroInsightCard: View {
             .accessibilityValue(statusMessage)
 
             if isExpanded && !recentAttempts.isEmpty {
-                Divider().overlay(Color.primary.opacity(0.08))
+                Divider().overlay(Color.white.opacity(0.08))
 
                 controlsRow
                     .padding(.horizontal, 24)
@@ -169,7 +170,7 @@ struct HeroInsightCard: View {
         .background(cardBackground)
         .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
         .overlay(cardBorder)
-        .shadow(color: statusColor.opacity(glowPulse ? 0.15 : 0.05), radius: 20, x: 0, y: 6)
+        .shadow(color: statusColor.opacity(glowPulse ? 0.22 : 0.08), radius: 24, x: 0, y: 8)
         .animation(.spring(response: 0.45, dampingFraction: 0.78), value: isExpanded)
         .onAppear {
             withAnimation(.easeInOut(duration: 2.0).repeatForever(autoreverses: true)) {
@@ -199,22 +200,23 @@ struct HeroInsightCard: View {
 
             ZStack {
                 Circle()
-                    .fill(statusColor.opacity(0.12))
-                    .frame(width: 52, height: 52)
+                    .fill(statusColor.opacity(0.15))
+                    .frame(width: 56, height: 56)
                 Image(systemName: statusIcon)
-                    .font(.system(size: 22, weight: .semibold))
+                    .font(.system(size: 24, weight: .semibold))
                     .foregroundColor(statusColor)
+                    .shadow(color: statusColor.opacity(0.6), radius: 8)
             }
 
             VStack(alignment: .leading, spacing: 6) {
                 Text("CALIBRATION INSIGHT")
-                    .font(.caption2.weight(.bold))
-                    .foregroundStyle(.secondary)
+                    .font(.caption2.weight(.black))
+                    .foregroundColor(.white.opacity(0.7))
                     .kerning(0.8)
 
                 HStack(alignment: .firstTextBaseline, spacing: 6) {
                     Text(statusLabel)
-                        .font(.title3.weight(.bold))
+                        .font(.title3.weight(.heavy))
                         .foregroundColor(statusColor)
 
                     if !recentAttempts.isEmpty && !filteredAttempts.isEmpty {
@@ -225,7 +227,7 @@ struct HeroInsightCard: View {
                 }
                 Text(statusMessage)
                     .font(.footnote.weight(.medium))
-                    .foregroundStyle(.secondary)
+                    .foregroundColor(.white.opacity(0.6))
                     .lineLimit(2)
                     .fixedSize(horizontal: false, vertical: true)
             }
@@ -235,11 +237,11 @@ struct HeroInsightCard: View {
             if !recentAttempts.isEmpty {
                 ZStack {
                     Circle()
-                        .fill(Color.primary.opacity(0.05))
-                        .frame(width: 32, height: 32)
+                        .fill(Color.white.opacity(0.06))
+                        .frame(width: 34, height: 34)
                     Image(systemName: "chevron.down")
                         .font(.system(size: 12, weight: .bold))
-                        .foregroundStyle(.secondary)
+                        .foregroundColor(.white.opacity(0.5))
                         .rotationEffect(.degrees(isExpanded ? 180 : 0))
                 }
                 .padding(.top, 4)
@@ -268,12 +270,12 @@ struct HeroInsightCard: View {
                     } label: {
                         Text(range.rawValue)
                             .font(.system(size: 11, weight: .bold))
-                            .foregroundColor(selectedRange == range ? Color(.systemBackground) : Color.secondary)
+                            .foregroundColor(selectedRange == range ? .black : .white.opacity(0.5))
                             .padding(.horizontal, 10)
                             .padding(.vertical, 5)
                             .background(
                                 Capsule()
-                                    .fill(selectedRange == range ? ClarityTheme.accentCyan : Color.primary.opacity(0.06))
+                                    .fill(selectedRange == range ? Color.cyan : Color.white.opacity(0.08))
                             )
                     }
                     .buttonStyle(.plain)
@@ -282,11 +284,12 @@ struct HeroInsightCard: View {
 
             Spacer()
 
+           
             HStack(spacing: 0) {
                 chartToggleButton(icon: "chart.bar.fill",    mode: .bars)
                 chartToggleButton(icon: "waveform.path.ecg", mode: .line)
             }
-            .background(Color.primary.opacity(0.05))
+            .background(Color.white.opacity(0.06))
             .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
         }
     }
@@ -298,11 +301,11 @@ struct HeroInsightCard: View {
         } label: {
             Image(systemName: icon)
                 .font(.system(size: 13, weight: .semibold))
-                .foregroundColor(chartMode == mode ? ClarityTheme.accentCyan : Color(UIColor.tertiaryLabel))
+                .foregroundColor(chartMode == mode ? .cyan : .white.opacity(0.35))
                 .frame(width: 34, height: 28)
                 .background(
                     RoundedRectangle(cornerRadius: 8, style: .continuous)
-                        .fill(chartMode == mode ? ClarityTheme.accentCyan.opacity(0.12) : .clear)
+                        .fill(chartMode == mode ? Color.cyan.opacity(0.15) : .clear)
                 )
         }
         .buttonStyle(.plain)
@@ -310,14 +313,15 @@ struct HeroInsightCard: View {
         .accessibilityAddTraits(chartMode == mode ? .isSelected : [])
     }
 
+
     private var emptyFilterState: some View {
         VStack(spacing: 10) {
             Image(systemName: "calendar.badge.exclamationmark")
                 .font(.system(size: 28))
-                .foregroundStyle(.quaternary)
+                .foregroundColor(.white.opacity(0.2))
             Text("No attempts in this period")
-                .font(.caption.weight(.medium))
-                .foregroundStyle(.secondary)
+                .font(.system(.caption, weight: .medium))
+                .foregroundColor(.white.opacity(0.4))
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 30)
@@ -343,8 +347,8 @@ struct HeroInsightCard: View {
 
     private var legendRow: some View {
         HStack(spacing: 14) {
-            legendDot(color: ClarityTheme.accentCyan,   label: "Confidence")
-            legendDot(color: ClarityTheme.accentPurple, label: "Score")
+            legendDot(color: .cyan,   label: "Confidence")
+            legendDot(color: .purple, label: "Score")
             Spacer()
         }
     }
@@ -354,7 +358,7 @@ struct HeroInsightCard: View {
             Circle().fill(color).frame(width: 7, height: 7)
             Text(label)
                 .font(.system(size: 10, weight: .semibold))
-                .foregroundStyle(.secondary)
+                .foregroundColor(.white.opacity(0.45))
         }
     }
 
@@ -363,12 +367,12 @@ struct HeroInsightCard: View {
 
         return VStack(spacing: 5) {
             HStack(alignment: .bottom, spacing: 3) {
-                barPill(value: bar.confidence, color: ClarityTheme.accentCyan,   isHighlighted: isWorst)
-                barPill(value: bar.score,      color: ClarityTheme.accentPurple, isHighlighted: isWorst)
+                barPill(value: bar.confidence, color: .cyan,   isHighlighted: isWorst)
+                barPill(value: bar.score,      color: .purple, isHighlighted: isWorst)
             }
             Text(shortName(bar.name))
-                .font(.system(size: 9, weight: isWorst ? .bold : .medium))
-                .foregroundColor(isWorst ? ClarityTheme.accentOrange : Color(UIColor.tertiaryLabel))
+                .font(.system(size: 9, weight: isWorst ? .black : .medium))
+                .foregroundColor(isWorst ? .orange : .white.opacity(0.4))
                 .lineLimit(1)
                 .frame(maxWidth: .infinity)
         }
@@ -382,14 +386,14 @@ struct HeroInsightCard: View {
         return RoundedRectangle(cornerRadius: 5, style: .continuous)
             .fill(
                 isHighlighted
-                    ? LinearGradient(colors: [ClarityTheme.accentOrange, color], startPoint: .top, endPoint: .bottom)
-                    : LinearGradient(colors: [color.opacity(0.85), color.opacity(0.4)], startPoint: .top, endPoint: .bottom)
+                    ? LinearGradient(colors: [.orange, color], startPoint: .top, endPoint: .bottom)
+                    : LinearGradient(colors: [color.opacity(0.9), color.opacity(0.45)], startPoint: .top, endPoint: .bottom)
             )
             .frame(width: 12, height: targetH)
             .overlay(
                 isHighlighted
                     ? RoundedRectangle(cornerRadius: 5, style: .continuous)
-                        .stroke(ClarityTheme.accentOrange.opacity(0.4), lineWidth: 1)
+                        .stroke(Color.orange.opacity(0.45), lineWidth: 1)
                     : nil
             )
             .animation(.spring(response: 0.65, dampingFraction: 0.75), value: animateBars)
@@ -401,39 +405,42 @@ struct HeroInsightCard: View {
             legendRow
 
             Chart {
+               
                 RuleMark(y: .value("Equal", 0))
                     .lineStyle(StrokeStyle(lineWidth: 1, dash: [4]))
-                    .foregroundStyle(Color.primary.opacity(0.12))
+                    .foregroundStyle(Color.white.opacity(0.15))
 
                 ForEach(attemptPoints) { point in
+                    
                     LineMark(
                         x: .value("Date", point.date),
                         y: .value("Confidence", point.confidence),
                         series: .value("Type", "Confidence")
                     )
-                    .foregroundStyle(ClarityTheme.accentCyan)
+                    .foregroundStyle(Color.cyan)
                     .interpolationMethod(.monotone)
 
                     PointMark(
                         x: .value("Date", point.date),
                         y: .value("Confidence", point.confidence)
                     )
-                    .foregroundStyle(ClarityTheme.accentCyan)
+                    .foregroundStyle(Color.cyan)
                     .symbolSize(40)
 
+                   
                     LineMark(
                         x: .value("Date", point.date),
                         y: .value("Score", point.score),
                         series: .value("Type", "Score")
                     )
-                    .foregroundStyle(ClarityTheme.accentPurple)
+                    .foregroundStyle(Color.purple)
                     .interpolationMethod(.monotone)
 
                     PointMark(
                         x: .value("Date", point.date),
                         y: .value("Score", point.score)
                     )
-                    .foregroundStyle(ClarityTheme.accentPurple)
+                    .foregroundStyle(Color.purple)
                     .symbolSize(40)
                 }
             }
@@ -441,14 +448,14 @@ struct HeroInsightCard: View {
             .chartXAxis {
                 AxisMarks(values: .stride(by: .day, count: selectedRange == .week ? 2 : 7)) {
                     AxisValueLabel(format: .dateTime.day().month(.abbreviated))
-                        .foregroundStyle(Color.primary.opacity(0.3))
+                        .foregroundStyle(Color.white.opacity(0.35))
                 }
             }
             .chartYAxis {
                 AxisMarks(values: [0, 50, 100]) {
-                    AxisGridLine().foregroundStyle(Color.primary.opacity(0.05))
+                    AxisGridLine().foregroundStyle(Color.white.opacity(0.06))
                     AxisValueLabel()
-                        .foregroundStyle(Color.primary.opacity(0.3))
+                        .foregroundStyle(Color.white.opacity(0.3))
                 }
             }
             .frame(height: 120)
@@ -461,42 +468,43 @@ struct HeroInsightCard: View {
         HStack(spacing: 12) {
             Image(systemName: "exclamationmark.triangle.fill")
                 .font(.system(size: 13, weight: .bold))
-                .foregroundColor(ClarityTheme.accentOrange)
+                .foregroundColor(.orange)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text("\(bar.name) — highest gap")
-                    .font(.caption.weight(.bold))
-                    .foregroundColor(ClarityTheme.accentOrange)
+                    .font(.system(.caption, weight: .bold))
+                    .foregroundColor(.orange)
                 Text("You were \(abs(bar.gap))% \(bar.gap > 0 ? "overconfident" : "underconfident") here.")
-                    .font(.caption2.weight(.medium))
-                    .foregroundStyle(.secondary)
+                    .font(.system(.caption2, weight: .medium))
+                    .foregroundColor(.white.opacity(0.6))
             }
 
             Spacer()
 
             Text("\(bar.gap > 0 ? "+" : "")\(bar.gap)%")
                 .font(Font.system(.caption, design: .rounded, weight: .black))
-                .foregroundColor(ClarityTheme.accentOrange)
+                .foregroundColor(.orange)
                 .padding(.horizontal, 8)
                 .padding(.vertical, 4)
-                .background(ClarityTheme.accentOrange.opacity(0.12))
+                .background(Color.orange.opacity(0.15))
                 .clipShape(Capsule())
         }
         .padding(12)
-        .background(ClarityTheme.accentOrange.opacity(0.06))
+        .background(Color.orange.opacity(0.08))
         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
         .overlay(
             RoundedRectangle(cornerRadius: 12, style: .continuous)
-                .stroke(ClarityTheme.accentOrange.opacity(0.15), lineWidth: 1)
+                .stroke(Color.orange.opacity(0.2), lineWidth: 1)
         )
         .transition(.move(edge: .bottom).combined(with: .opacity))
     }
 
+
     private var cardBackground: some View {
         ZStack {
-            ClarityTheme.cardBackground
+            Color(red: 0.07, green: 0.07, blue: 0.12)
             RadialGradient(
-                colors: [statusColor.opacity(0.08), .clear],
+                colors: [statusColor.opacity(0.12), .clear],
                 center: .topLeading,
                 startRadius: 0,
                 endRadius: 180
@@ -508,13 +516,14 @@ struct HeroInsightCard: View {
         RoundedRectangle(cornerRadius: 24, style: .continuous)
             .strokeBorder(
                 LinearGradient(
-                    colors: [statusColor.opacity(0.25), Color.primary.opacity(0.04)],
+                    colors: [statusColor.opacity(0.35), Color.white.opacity(0.05)],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 ),
                 lineWidth: 1
             )
     }
+
 
     private func shortName(_ name: String) -> String {
         let words = name.split(separator: " ")

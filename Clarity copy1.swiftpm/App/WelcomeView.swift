@@ -16,7 +16,7 @@ struct WelcomeView: View {
     var body: some View {
         ZStack {
             
-            ClarityTheme.screenBackground.ignoresSafeArea()
+            Color.black.ignoresSafeArea()
             
             RadialGradient(
                 colors: [glowColor.opacity(0.3), .clear],
@@ -33,7 +33,7 @@ struct WelcomeView: View {
                     
                     OnboardingPage(
                         icon: "brain.head.profile",
-                        iconColor: ClarityTheme.accentOrange,
+                        iconColor: .orange,
                         title: "The Illusion of\nCompetence",
                         subtitle: "Recognizing an answer is not the same as recalling it. Stop re-reading your notes and start testing your actual memory.",
                         isActive: currentPage == 0
@@ -43,7 +43,7 @@ struct WelcomeView: View {
                     
                     OnboardingPage(
                         icon: "cpu",
-                        iconColor: ClarityTheme.accentPurple,
+                        iconColor: .purple,
                         title: "Ultimate\nCalibration",
                         subtitle: "Predict your score before the AI grades you. Discover if you are dangerously overconfident or suffering from imposter syndrome.",
                         isActive: currentPage == 1
@@ -52,7 +52,7 @@ struct WelcomeView: View {
                     
                     OnboardingPage(
                         icon: "chart.xyaxis.line",
-                        iconColor: ClarityTheme.accentGreen,
+                        iconColor: .green,
                         title: "The Zone of\nClarity",
                         subtitle: "Track your metacognition over time. Flatten the curve, align your confidence with reality, and master your subjects.",
                         isActive: currentPage == 2
@@ -68,7 +68,7 @@ struct WelcomeView: View {
                     HStack(spacing: 8) {
                         ForEach(0..<3) { index in
                             Capsule()
-                                .fill(currentPage == index ? .white : Color(UIColor.quaternaryLabel))
+                                .fill(currentPage == index ? .white : .white.opacity(0.2))
                                 .frame(width: currentPage == index ? 24 : 8, height: 8)
                                 .animation(.spring(response: 0.4, dampingFraction: 0.7), value: currentPage)
                         }
@@ -90,16 +90,14 @@ struct WelcomeView: View {
                     } label: {
                         Text(currentPage == 2 ? "Ready" : "Continue")
                             .font(.system(.title3, weight: .bold))
-                            .foregroundColor(.white)
+                            .foregroundColor(currentPage == 2 ? .black : .white)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 18)
                             .background(
-                                currentPage == 2
-                                    ? AnyShapeStyle(ClarityTheme.greenGradient)
-                                    : AnyShapeStyle(Color.primary.opacity(0.1))
+                                currentPage == 2 ? Color.green : Color.white.opacity(0.1)
                             )
                             .clipShape(Capsule())
-                            .shadow(color: currentPage == 2 ? ClarityTheme.accentGreen.opacity(0.35) : .clear, radius: 15, x: 0, y: 5)
+                            .shadow(color: currentPage == 2 ? .green.opacity(0.4) : .clear, radius: 15, x: 0, y: 5)
                             .animation(.easeInOut, value: currentPage)
                     }
                     .padding(.horizontal, 32)
@@ -111,10 +109,10 @@ struct WelcomeView: View {
     
     private var glowColor: Color {
         switch currentPage {
-        case 0: return ClarityTheme.accentOrange
-        case 1: return ClarityTheme.accentPurple
-        case 2: return ClarityTheme.accentGreen
-        default: return ClarityTheme.accentCyan
+        case 0: return .orange
+        case 1: return .purple
+        case 2: return .green
+        default: return .cyan
         }
     }
 }
@@ -142,13 +140,13 @@ struct OnboardingPage: View {
             VStack(spacing: 16) {
                 Text(title)
                     .font(.system(size: 40, weight: .heavy))
-                    .foregroundStyle(.primary)
+                    .foregroundColor(.white)
                     .multilineTextAlignment(.center)
                     .lineSpacing(4)
                 
                 Text(subtitle)
                     .font(.system(.title3, weight: .medium))
-                    .foregroundStyle(.secondary)
+                    .foregroundColor(.white.opacity(0.7))
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 32)
                     .lineSpacing(6)

@@ -12,8 +12,9 @@ struct BookmarkedTopicsSection: View {
 
             HStack(alignment: .center) {
                 Text("Bookmarked")
-                    .font(.title3.weight(.bold))
-                    .foregroundStyle(.primary)
+                    .font(.title3)
+                    .fontWeight(.bold)
+                    .foregroundColor(.white)
 
                 Spacer()
 
@@ -21,16 +22,18 @@ struct BookmarkedTopicsSection: View {
                     NavigationLink(destination: BookmarkedTopicsView()) {
                         HStack(spacing: 4) {
                             Text("View All")
-                                .font(.caption.weight(.semibold))
+                                .font(.caption)
+                                .fontWeight(.semibold)
                             Image(systemName: "chevron.right")
-                                .font(.caption.weight(.bold))
+                                .font(.caption)
+                                .fontWeight(.bold)
                         }
-                        .foregroundColor(ClarityTheme.accentYellow.opacity(0.85))
+                        .foregroundColor(.yellow.opacity(0.85))
                         .padding(.horizontal, 12)
                         .padding(.vertical, 6)
-                        .background(ClarityTheme.accentYellow.opacity(0.06))
+                        .background(Color.yellow.opacity(0.08))
                         .clipShape(Capsule())
-                        .overlay(Capsule().stroke(ClarityTheme.accentYellow.opacity(0.12), lineWidth: 1))
+                        .overlay(Capsule().stroke(Color.yellow.opacity(0.15), lineWidth: 1))
                     }
                     .buttonStyle(.plain)
                     .simultaneousGesture(TapGesture().onEnded {
@@ -77,21 +80,23 @@ struct BookmarkedEmptyCard: View {
             Spacer()
             ZStack {
                 Circle()
-                    .stroke(ClarityTheme.accentYellow.opacity(0.18), style: StrokeStyle(lineWidth: 1.5, dash: [4, 3]))
+                    .stroke(Color.yellow.opacity(0.2), style: StrokeStyle(lineWidth: 1.5, dash: [4, 3]))
                     .frame(width: 44, height: 44)
                 Image(systemName: "bookmark")
                     .font(.system(size: 18, weight: .medium))
-                    .foregroundColor(ClarityTheme.accentYellow.opacity(0.40))
+                    .foregroundColor(.yellow.opacity(0.45))
             }
 
             VStack(spacing: 4) {
                 Text("No bookmarks yet")
-                    .font(.caption.weight(.bold))
-                    .foregroundStyle(.secondary)
+                    .font(.caption)
+                    .fontWeight(.bold)
+                    .foregroundColor(.white.opacity(0.55))
 
                 Text("Tap to browse\nthe Library")
-                    .font(.caption.weight(.medium))
-                    .foregroundStyle(.tertiary)
+                    .font(.caption)
+                    .fontWeight(.medium)
+                    .foregroundColor(.white.opacity(0.25))
                     .multilineTextAlignment(.center)
                     .lineSpacing(2)
             }
@@ -101,9 +106,9 @@ struct BookmarkedEmptyCard: View {
         .frame(width: 155, height: 145)
         .background(
             ZStack {
-                ClarityTheme.cardBackground
+                Color(red: 0.08, green: 0.08, blue: 0.12)
                 LinearGradient(
-                    colors: [ClarityTheme.accentYellow.opacity(0.04), .clear],
+                    colors: [Color.yellow.opacity(0.05), .clear],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 )
@@ -114,7 +119,7 @@ struct BookmarkedEmptyCard: View {
             RoundedRectangle(cornerRadius: 20, style: .continuous)
                 .strokeBorder(
                     LinearGradient(
-                        colors: [ClarityTheme.accentYellow.opacity(0.14), ClarityTheme.accentYellow.opacity(0.03)],
+                        colors: [Color.yellow.opacity(0.18), Color.yellow.opacity(0.04)],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     ),
@@ -134,7 +139,7 @@ struct BookmarkedTopicCard: View {
             HStack(alignment: .top) {
                 ZStack {
                     Circle()
-                        .fill(topic.difficulty.color.opacity(0.12))
+                        .fill(topic.difficulty.color.opacity(0.15))
                         .frame(width: 40, height: 40)
                     Image(systemName: "brain.head.profile")
                         .font(.system(size: 16, weight: .semibold))
@@ -145,7 +150,7 @@ struct BookmarkedTopicCard: View {
 
                 Image(systemName: "bookmark.fill")
                     .font(.system(size: 13, weight: .semibold))
-                    .foregroundColor(ClarityTheme.accentYellow)
+                    .foregroundColor(.yellow)
             }
             .padding(.horizontal, 16)
             .padding(.top, 16)
@@ -154,8 +159,8 @@ struct BookmarkedTopicCard: View {
 
             VStack(alignment: .leading, spacing: 6) {
                 Text(topic.title)
-                    .font(.subheadline.weight(.bold))
-                    .foregroundStyle(.primary)
+                    .font(.system(.subheadline, weight: .bold))
+                    .foregroundColor(.white)
                     .lineLimit(2)
                     .multilineTextAlignment(.leading)
 
@@ -174,9 +179,9 @@ struct BookmarkedTopicCard: View {
         .frame(width: 155, height: 145)
         .background(
             ZStack {
-                ClarityTheme.cardBackground
+                Color(red: 0.08, green: 0.08, blue: 0.12)
                 LinearGradient(
-                    colors: [ClarityTheme.accentYellow.opacity(0.06), ClarityTheme.accentYellow.opacity(0.01)],
+                    colors: [Color.yellow.opacity(0.1), Color.yellow.opacity(0.02)],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 )
@@ -187,14 +192,14 @@ struct BookmarkedTopicCard: View {
             RoundedRectangle(cornerRadius: 20, style: .continuous)
                 .strokeBorder(
                     LinearGradient(
-                        colors: [ClarityTheme.accentYellow.opacity(0.25), ClarityTheme.accentYellow.opacity(0.04)],
+                        colors: [Color.yellow.opacity(0.35), Color.yellow.opacity(0.05)],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     ),
                     lineWidth: 1
                 )
         )
-        .shadow(color: ClarityTheme.accentYellow.opacity(0.08), radius: 8, x: 0, y: 3)
+        .shadow(color: Color.yellow.opacity(0.12), radius: 10, x: 0, y: 4)
     }
 }
 
@@ -210,7 +215,15 @@ struct BookmarkedTopicsView: View {
 
     var body: some View {
         ZStack {
-            ClarityTheme.screenBackground.ignoresSafeArea()
+            Color(red: 0.04, green: 0.04, blue: 0.07).ignoresSafeArea()
+
+            RadialGradient(
+                colors: [Color.yellow.opacity(0.07), .clear],
+                center: .top,
+                startRadius: 0,
+                endRadius: 380
+            )
+            .ignoresSafeArea()
 
             if bookmarkedTopics.isEmpty {
                 emptyState
@@ -218,18 +231,20 @@ struct BookmarkedTopicsView: View {
                 ScrollView(showsIndicators: false) {
                     VStack(alignment: .leading, spacing: 20) {
 
+                    
                         VStack(alignment: .leading, spacing: 4) {
                             Text("\(bookmarkedTopics.count) SAVED TOPIC\(bookmarkedTopics.count == 1 ? "" : "S")")
-                                .font(.system(size: 11, weight: .bold))
-                                .foregroundColor(ClarityTheme.accentYellow.opacity(0.6))
+                                .font(.system(size: 11, weight: .black))
+                                .foregroundColor(.yellow.opacity(0.6))
                                 .kerning(0.8)
                             Text("Tap any card to start a test session.")
-                                .font(.subheadline.weight(.medium))
-                                .foregroundStyle(.secondary)
+                                .font(.system(.subheadline, weight: .medium))
+                                .foregroundColor(.white.opacity(0.4))
                         }
                         .padding(.horizontal, 20)
                         .padding(.top, 8)
 
+                      
                         LazyVGrid(columns: columns, spacing: 14) {
                             ForEach(bookmarkedTopics) { topic in
                                 NavigationLink(destination: TestWizardView(topic: topic)) {
@@ -255,19 +270,19 @@ struct BookmarkedTopicsView: View {
         VStack(spacing: 20) {
             ZStack {
                 Circle()
-                    .fill(ClarityTheme.accentYellow.opacity(0.05))
+                    .fill(Color.yellow.opacity(0.06))
                     .frame(width: 90, height: 90)
                 Image(systemName: "bookmark.slash")
                     .font(.system(size: 34, weight: .light))
-                    .foregroundStyle(.quaternary)
+                    .foregroundColor(.white.opacity(0.2))
             }
             VStack(spacing: 8) {
                 Text("Nothing Saved Yet")
-                    .font(.title3.weight(.bold))
-                    .foregroundStyle(.primary)
+                    .font(.system(.title3, weight: .bold))
+                    .foregroundColor(.white)
                 Text("Tap the bookmark icon on any topic\nin the Library to save it here.")
-                    .font(.subheadline.weight(.medium))
-                    .foregroundStyle(.secondary)
+                    .font(.system(.subheadline, weight: .medium))
+                    .foregroundColor(.white.opacity(0.4))
                     .multilineTextAlignment(.center)
                     .lineSpacing(4)
             }
@@ -284,10 +299,11 @@ struct BookmarkedGridCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
 
+            
             HStack(alignment: .top) {
                 ZStack {
                     Circle()
-                        .fill(topic.difficulty.color.opacity(0.14))
+                        .fill(topic.difficulty.color.opacity(0.18))
                         .frame(width: 44, height: 44)
                     Image(systemName: "brain.head.profile")
                         .font(.system(size: 18, weight: .semibold))
@@ -296,6 +312,7 @@ struct BookmarkedGridCard: View {
 
                 Spacer()
 
+            
                 Button {
                     withAnimation(.spring(response: 0.3)) {
                         topic.isBookmarked = false
@@ -304,9 +321,9 @@ struct BookmarkedGridCard: View {
                 } label: {
                     Image(systemName: "bookmark.fill")
                         .font(.system(size: 15, weight: .semibold))
-                        .foregroundColor(ClarityTheme.accentYellow)
+                        .foregroundColor(.yellow)
                         .padding(7)
-                        .background(ClarityTheme.accentYellow.opacity(0.10))
+                        .background(Color.yellow.opacity(0.12))
                         .clipShape(Circle())
                 }
                 .buttonStyle(.plain)
@@ -317,8 +334,8 @@ struct BookmarkedGridCard: View {
 
             VStack(alignment: .leading, spacing: 8) {
                 Text(topic.title)
-                    .font(.subheadline.weight(.bold))
-                    .foregroundStyle(.primary)
+                    .font(.system(.subheadline, weight: .bold))
+                    .foregroundColor(.white)
                     .lineLimit(2)
                     .multilineTextAlignment(.leading)
                     .fixedSize(horizontal: false, vertical: true)
@@ -338,7 +355,7 @@ struct BookmarkedGridCard: View {
                     Text("Start Session")
                         .font(.system(size: 10, weight: .bold))
                 }
-                .foregroundStyle(.tertiary)
+                .foregroundColor(.white.opacity(0.35))
                 .padding(.top, 2)
             }
             .padding(.horizontal, 16)
@@ -347,12 +364,18 @@ struct BookmarkedGridCard: View {
         .frame(height: 185)
         .background(
             ZStack {
-                ClarityTheme.cardBackground
+                Color(red: 0.09, green: 0.09, blue: 0.13)
+                
                 RadialGradient(
-                    colors: [topic.difficulty.color.opacity(0.08), .clear],
+                    colors: [topic.difficulty.color.opacity(0.12), .clear],
                     center: .topLeading,
                     startRadius: 0,
                     endRadius: 120
+                )
+                LinearGradient(
+                    colors: [Color.yellow.opacity(0.06), .clear],
+                    startPoint: .topTrailing,
+                    endPoint: .bottomLeading
                 )
             }
         )
@@ -361,13 +384,13 @@ struct BookmarkedGridCard: View {
             RoundedRectangle(cornerRadius: 20, style: .continuous)
                 .strokeBorder(
                     LinearGradient(
-                        colors: [ClarityTheme.accentYellow.opacity(0.22), topic.difficulty.color.opacity(0.12)],
+                        colors: [Color.yellow.opacity(0.3), topic.difficulty.color.opacity(0.2)],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     ),
                     lineWidth: 1
                 )
         )
-        .shadow(color: ClarityTheme.accentYellow.opacity(0.06), radius: 8, x: 0, y: 3)
+        .shadow(color: Color.yellow.opacity(0.1), radius: 10, x: 0, y: 4)
     }
 }

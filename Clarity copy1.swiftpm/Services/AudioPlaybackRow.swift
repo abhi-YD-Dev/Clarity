@@ -28,7 +28,7 @@ struct AudioPlaybackRow: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text("Voice Recall")
                     .font(.system(.subheadline, design: .rounded, weight: .bold))
-                    .foregroundStyle(.primary)
+                    .foregroundColor(.white)
                 
                 Text(isPlaying ? "Playing..." : "Tap to listen")
                     .font(.system(.caption, design: .rounded))
@@ -39,7 +39,7 @@ struct AudioPlaybackRow: View {
             
             Image(systemName: "waveform")
                 .font(.title2)
-                .foregroundColor(isPlaying ? .orange : Color(UIColor.quaternaryLabel))
+                .foregroundColor(isPlaying ? .orange : .white.opacity(0.2))
                 .scaleEffect(isPlaying ? 1.15 : 1.0)
                 .opacity(isPlaying ? 1.0 : 0.5)
                 .animation(
@@ -49,11 +49,11 @@ struct AudioPlaybackRow: View {
                 .accessibilityHidden(true)
         }
         .padding(16)
-        .background(Color.primary.opacity(0.05))
+        .background(Color.white.opacity(0.05))
         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
         .overlay(
             RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .stroke(Color.primary.opacity(0.1), lineWidth: 1)
+                .stroke(Color.white.opacity(0.1), lineWidth: 1)
         )
         .onAppear(perform: setupPlayer)
         .onDisappear {

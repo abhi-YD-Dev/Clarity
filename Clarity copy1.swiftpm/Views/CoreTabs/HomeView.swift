@@ -17,10 +17,10 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                ClarityTheme.screenBackground.ignoresSafeArea()
+                Color.black.ignoresSafeArea()
 
                 ScrollView(showsIndicators: false) {
-                    VStack(alignment: .leading, spacing: 28) {
+                    VStack(alignment: .leading, spacing: 32) {
 
                         greeting
                             .padding(.horizontal)
@@ -59,28 +59,10 @@ struct HomeView: View {
     private var greeting: some View {
         VStack(alignment: .leading, spacing: 4) {
 
-            if allAttempts.isEmpty {
-                Text("Clarity")
-                    .font(.system(.largeTitle, weight: .bold))
-                    .foregroundStyle(.primary)
-            } else {
-                Text(timeOfDayGreeting)
-                    .font(.subheadline.weight(.medium))
-                    .foregroundStyle(.secondary)
-                Text("Home")
-                    .font(.system(.largeTitle, weight: .bold))
-                    .foregroundStyle(.primary)
-            }
-        }
-    }
-
-    private var timeOfDayGreeting: String {
-        let hour = Calendar.current.component(.hour, from: .now)
-        switch hour {
-        case 5..<12:  return "Good morning"
-        case 12..<17: return "Good afternoon"
-        case 17..<21: return "Good evening"
-        default:      return "Good night"
+            Text(allAttempts.isEmpty ? "Clarity" : "Home")
+                .font(.system(.largeTitle, weight: .heavy))
+                .foregroundColor(.white)
+                .animation(.easeInOut(duration: 0.3), value: allAttempts.isEmpty)
         }
     }
 }
@@ -110,14 +92,14 @@ struct JumpBackInCarousel: View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
                 Text("Jump Back In")
-                    .font(.title3.weight(.bold))
-                    .foregroundStyle(.primary)
+                    .font(.system(.title3, weight: .bold))
+                    .foregroundColor(.white.opacity(0.9))
                 Spacer()
             }
             .padding(.horizontal)
 
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 14) {
+                HStack(spacing: 16) {
                     ForEach(recentUniqueTopics, id: \.topic.id) { item in
                         NavigationLink(destination: TestWizardView(topic: item.topic)) {
                             RecentTopicCard(topic: item.topic, lastScore: item.lastScore)

@@ -5,32 +5,33 @@ import SwiftData
 @main
 struct ClarityApp: App {
     
+    
     let container: ModelContainer
-    @AppStorage("appearanceMode") private var appearanceMode: Int = 0
     
     init() {
         do {
+            
             let config = ModelConfiguration(isStoredInMemoryOnly: false)
+            
             container = try ModelContainer(for: Concept.self, Topic.self, Attempt.self, configurations: config)
             
             if !UserDefaults.standard.bool(forKey: "hasInsertedSampleData") {
                 MockData.insertSampleData(modelContext: container.mainContext)
                 UserDefaults.standard.set(true, forKey: "hasInsertedSampleData")
             }
+            
         } catch {
             fatalError("Failed to initialize SwiftData container.")
         }
     }
     
-    @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
     
-    private var resolvedColorScheme: ColorScheme? {
-        AppearanceMode(rawValue: appearanceMode)?.colorScheme
-    }
+    @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
     
     var body: some Scene {
         WindowGroup {
             Group {
+                
                 if hasSeenOnboarding {
                     MainTabView()
                         .transition(.opacity)
@@ -39,8 +40,7 @@ struct ClarityApp: App {
                         .transition(.opacity)
                 }
             }
-            .tint(ClarityTheme.accentCyan)
-            .preferredColorScheme(resolvedColorScheme)
+            .preferredColorScheme(.dark)
         }
         .modelContainer(container)
     }

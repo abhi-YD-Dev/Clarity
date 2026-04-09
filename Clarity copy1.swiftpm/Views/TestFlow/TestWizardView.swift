@@ -61,14 +61,14 @@ struct TestWizardView: View {
 
     private var stepAccent: Color {
         switch step {
-        case .question:          return ClarityTheme.accentCyan
-        case .confidence:        return ClarityTheme.accentCyan
-        case .answer:            return ClarityTheme.accentPurple
+        case .question:          return .white
+        case .confidence:        return .cyan
+        case .answer:            return Color(red: 0.4, green: 0.7, blue: 1.0)
         case .evaluationChoice:  return .indigo
         case .compareAnswers:    return .teal
-        case .predictScore:      return ClarityTheme.accentOrange
-        case .aiReveal:          return ClarityTheme.accentPurple
-        case .reflection:        return ClarityTheme.accentGreen
+        case .predictScore:      return Color(red: 1.0, green: 0.8, blue: 0.2)
+        case .aiReveal:          return .purple
+        case .reflection:        return Color(red: 0.3, green: 0.9, blue: 0.6)
         }
     }
 
@@ -82,19 +82,6 @@ struct TestWizardView: View {
         case .predictScore:     return "Self Grade"
         case .aiReveal:         return "AI Result"
         case .reflection:       return "Reflect"
-        }
-    }
-
-    private var stepEmoji: String {
-        switch step {
-        case .question:         return "📖"
-        case .confidence:       return "🧠"
-        case .answer:           return "✍️"
-        case .evaluationChoice: return "⚖️"
-        case .compareAnswers:   return "🔍"
-        case .predictScore:     return "🎯"
-        case .aiReveal:         return "✨"
-        case .reflection:       return "💭"
         }
     }
 
@@ -128,32 +115,24 @@ struct TestWizardView: View {
 
     var body: some View {
         ZStack {
-            // Adaptive background
-            ClarityTheme.screenBackground.ignoresSafeArea()
+            Color(red: 0.05, green: 0.05, blue: 0.08).ignoresSafeArea()
 
-            // Subtle contextual glow at the top
-            RadialGradient(
-                colors: [stepAccent.opacity(0.08), .clear],
-                center: .top,
-                startRadius: 10,
-                endRadius: 350
-            )
-            .ignoresSafeArea()
-            .animation(.easeInOut(duration: 0.6), value: step)
+            Text("\(stepNumber)")
+                .font(.system(size: 240, weight: .black, design: .rounded))
+                .foregroundColor(stepAccent.opacity(0.04))
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+                .offset(x: 30, y: 40)
+                .ignoresSafeArea()
+                .animation(.easeInOut(duration: 0.4), value: step)
 
             VStack(spacing: 0) {
 
                 navBar
 
-                // Progress bar
-                progressBar
-                    .padding(.horizontal, 24)
-                    .padding(.top, 4)
-
                 stepHeader
                     .padding(.horizontal, 28)
-                    .padding(.top, 16)
-                    .padding(.bottom, 20)
+                    .padding(.top, 8)
+                    .padding(.bottom, 24)
 
                 ScrollView(showsIndicators: false) {
                     ZStack {
@@ -173,20 +152,18 @@ struct TestWizardView: View {
 
                 Spacer(minLength: 0)
             }
-
-            // Floating CTA button
             VStack {
                 Spacer()
                 primaryButton
                     .padding(.horizontal, 24)
                     .padding(.bottom, 36)
-                    .padding(.top, 16)
                     .background(
                         LinearGradient(
-                            colors: [ClarityTheme.screenBackground.opacity(0), ClarityTheme.screenBackground],
+                            colors: [.clear, Color(red: 0.05, green: 0.05, blue: 0.08)],
                             startPoint: .top,
-                            endPoint: .center
+                            endPoint: .bottom
                         )
+                        .frame(height: 130)
                         .ignoresSafeArea()
                     )
             }
@@ -219,7 +196,7 @@ struct TestWizardView: View {
             Button("Take Photo")          { showingCamera  = true }
             Button("Choose from Gallery") { showingGallery = true }
             Button("Cancel", role: .cancel) { }
-        } message: Text("Capture your handwritten notes.")
+        } message: { Text("Capture your handwritten notes.") }
         .photosPicker(isPresented: $showingGallery, selection: $selectedPhotoItem, matching: .images, photoLibrary: .shared())
         .sheet(isPresented: $showingCamera) {
             CameraPicker(selectedImageData: $cameraImageData).ignoresSafeArea()
@@ -236,33 +213,6 @@ struct TestWizardView: View {
             }
         }
     }
-
-    // MARK: - Progress Bar
-
-    private var progressBar: some View {
-        GeometryReader { geo in
-            ZStack(alignment: .leading) {
-                RoundedRectangle(cornerRadius: 2)
-                    .fill(Color.primary.opacity(0.06))
-                    .frame(height: 4)
-
-                RoundedRectangle(cornerRadius: 2)
-                    .fill(
-                        LinearGradient(
-                            colors: [stepAccent, stepAccent.opacity(0.6)],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
-                    .frame(width: geo.size.width * (CGFloat(stepNumber) / CGFloat(totalSteps)), height: 4)
-                    .animation(.spring(response: 0.4, dampingFraction: 0.8), value: step)
-            }
-        }
-        .frame(height: 4)
-    }
-
-    // MARK: - Nav Bar
-    
     private var navBar: some View {
         HStack {
             Button {
@@ -275,9 +225,9 @@ struct TestWizardView: View {
             } label: {
                 Image(systemName: step == .question ? "xmark" : "chevron.left")
                     .font(.body.weight(.semibold))
-                    .foregroundStyle(.secondary)
+                    .foregroundColor(.white.opacity(0.6))
                     .frame(width: 38, height: 38)
-                    .background(.ultraThinMaterial)
+                    .background(Color.white.opacity(0.07))
                     .clipShape(Circle())
             }
             .buttonStyle(.plain)
@@ -285,24 +235,18 @@ struct TestWizardView: View {
             .accessibilityHint(step == .question ? "Dismiss the test" : "Return to \(stepNumber > 1 ? TestStep(rawValue: step.rawValue - 1)!.description : "previous step")")
 
             Spacer()
-
-            // Step indicator pill
-            HStack(spacing: 6) {
-                Text(stepEmoji)
-                    .font(.caption2)
-                Text("\(stepNumber)/\(totalSteps)")
-                    .font(.caption.weight(.bold).monospacedDigit())
-                    .foregroundStyle(.secondary)
+            HStack(spacing: 5) {
+                ForEach(0..<totalSteps, id: \.self) { i in
+                    Capsule()
+                        .fill(i <= step.rawValue ? stepAccent : Color.white.opacity(0.12))
+                        .frame(width: i == step.rawValue ? 18 : 5, height: 5)
+                        .animation(.spring(response: 0.35), value: step)
+                }
             }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 6)
-            .background(.ultraThinMaterial)
-            .clipShape(Capsule())
 
             Spacer()
-
             Text(topic.difficultyRaw.uppercased())
-                .font(.caption2.weight(.bold))
+                .font(.caption2.weight(.bold)) // HIG
                 .kerning(0.5)
                 .foregroundColor(topic.difficulty.color)
                 .padding(.horizontal, 10)
@@ -315,39 +259,20 @@ struct TestWizardView: View {
         .padding(.bottom, 4)
     }
 
-    // MARK: - Step Header
-
     private var stepHeader: some View {
-        HStack(alignment: .center) {
-            VStack(alignment: .leading, spacing: 3) {
+        HStack(alignment: .bottom) {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("\(stepNumber) of \(totalSteps)")
+                    .font(.caption2.weight(.bold).monospaced())
+                    .foregroundColor(stepAccent.opacity(0.6))
+                    .kerning(0.5)
+
                 Text(stepLabel)
-                    .font(.title.weight(.bold))
-                    .foregroundStyle(.primary)
-                    .contentTransition(.numericText())
-                    .animation(.spring(response: 0.35), value: step)
+                    .font(.largeTitle.weight(.bold))
+                    .foregroundColor(.white)
             }
 
             Spacer()
-
-            // Circular step indicator
-            ZStack {
-                Circle()
-                    .stroke(Color.primary.opacity(0.06), lineWidth: 3)
-                    .frame(width: 44, height: 44)
-
-                Circle()
-                    .trim(from: 0, to: CGFloat(stepNumber) / CGFloat(totalSteps))
-                    .stroke(stepAccent, style: StrokeStyle(lineWidth: 3, lineCap: .round))
-                    .frame(width: 44, height: 44)
-                    .rotationEffect(.degrees(-90))
-                    .animation(.spring(response: 0.5, dampingFraction: 0.8), value: step)
-
-                Text("\(stepNumber)")
-                    .font(.system(size: 15, weight: .bold, design: .rounded))
-                    .foregroundColor(stepAccent)
-                    .contentTransition(.numericText())
-                    .animation(.spring(response: 0.3), value: stepNumber)
-            }
         }
     }
 
@@ -365,34 +290,18 @@ struct TestWizardView: View {
         }
     }
 
-    // MARK: - Question Step
-
     private var questionStep: some View {
-        VStack(alignment: .leading, spacing: 24) {
-
-            // Topic context label
-            HStack(spacing: 8) {
-                Image(systemName: "doc.text")
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(stepAccent)
-                Text(topic.title)
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(.secondary)
-                    .lineLimit(1)
-            }
-            .padding(.horizontal, 14)
-            .padding(.vertical, 8)
-            .background(stepAccent.opacity(0.06))
-            .clipShape(Capsule())
-
-            // Question text — prominent
+        VStack(alignment: .leading, spacing: 28) {
+            Label(topic.title, systemImage: "doc.text")
+                .font(.caption.weight(.semibold))
+                .foregroundColor(.white.opacity(0.5))
+                .lineLimit(1)
             Text(topic.question)
-                .font(.title3.weight(.semibold))
-                .foregroundStyle(.primary)
+                .font(.title2.weight(.semibold))
+                .foregroundColor(.white)
                 .lineSpacing(6)
                 .fixedSize(horizontal: false, vertical: true)
 
-            // Hint section
             VStack(alignment: .leading, spacing: 12) {
                 Button {
                     withAnimation(.spring(response: 0.35)) { showHint.toggle() }
@@ -404,12 +313,12 @@ struct TestWizardView: View {
                         Text(showHint ? "Hide Hint" : "Show Hint")
                             .font(.subheadline.weight(.semibold))
                     }
-                    .foregroundColor(ClarityTheme.accentYellow)
+                    .foregroundColor(Color(red: 1.0, green: 0.8, blue: 0.2))
                     .padding(.horizontal, 14)
                     .padding(.vertical, 9)
-                    .background(ClarityTheme.accentYellow.opacity(0.08))
+                    .background(Color(red: 1.0, green: 0.8, blue: 0.2).opacity(0.1))
                     .clipShape(Capsule())
-                    .overlay(Capsule().stroke(ClarityTheme.accentYellow.opacity(0.2), lineWidth: 1))
+                    .overlay(Capsule().stroke(Color(red: 1.0, green: 0.8, blue: 0.2).opacity(0.25), lineWidth: 1))
                 }
                 .buttonStyle(.plain)
 
@@ -417,18 +326,18 @@ struct TestWizardView: View {
                     HStack(alignment: .top, spacing: 12) {
                         Image(systemName: "lightbulb.fill")
                             .font(.subheadline)
-                            .foregroundColor(ClarityTheme.accentYellow)
+                            .foregroundColor(Color(red: 1.0, green: 0.8, blue: 0.2))
                             .padding(.top, 2)
                         Text(topic.quickHint)
                             .font(.subheadline.weight(.medium))
-                            .foregroundStyle(.primary)
+                            .foregroundColor(.white.opacity(0.8))
                             .lineSpacing(4)
                     }
                     .padding(16)
-                    .background(ClarityTheme.accentYellow.opacity(0.06))
+                    .background(Color(red: 1.0, green: 0.8, blue: 0.2).opacity(0.07))
                     .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
                     .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous)
-                        .stroke(ClarityTheme.accentYellow.opacity(0.15), lineWidth: 1))
+                        .stroke(Color(red: 1.0, green: 0.8, blue: 0.2).opacity(0.2), lineWidth: 1))
                     .transition(.move(edge: .top).combined(with: .opacity))
                 }
             }
@@ -436,56 +345,30 @@ struct TestWizardView: View {
         .stepCard(accent: stepAccent)
     }
 
-    // MARK: - Confidence Step
-
     private var confidenceStep: some View {
-        VStack(alignment: .leading, spacing: 28) {
+        VStack(alignment: .leading, spacing: 36) {
 
             VStack(alignment: .leading, spacing: 8) {
                 Text("Before writing a single word —")
                     .font(.subheadline.weight(.medium))
-                    .foregroundStyle(.secondary)
+                    .foregroundColor(.white.opacity(0.5))
                 Text("How confident are you that you know this?")
                     .font(.title3.weight(.bold))
-                    .foregroundStyle(.primary)
+                    .foregroundColor(.white)
                     .lineSpacing(4)
             }
 
-            // Circular ring + score
-            VStack(spacing: 12) {
-                ZStack {
-                    // Track
-                    Circle()
-                        .stroke(Color.primary.opacity(0.06), lineWidth: 10)
-                        .frame(width: 160, height: 160)
+            VStack(spacing: 4) {
+                Text("\(Int(confidence))")
+                    .font(.system(size: 88, weight: .black, design: .rounded))
+                    .foregroundColor(stepAccent)
+                    .shadow(color: stepAccent.opacity(0.4), radius: 20)
+                    .contentTransition(.numericText())
+                    .animation(.spring(response: 0.25), value: Int(confidence))
 
-                    // Fill
-                    Circle()
-                        .trim(from: 0, to: confidence / 100.0)
-                        .stroke(
-                            AngularGradient(
-                                colors: [stepAccent.opacity(0.4), stepAccent],
-                                center: .center,
-                                startAngle: .degrees(0),
-                                endAngle: .degrees(360)
-                            ),
-                            style: StrokeStyle(lineWidth: 10, lineCap: .round)
-                        )
-                        .frame(width: 160, height: 160)
-                        .rotationEffect(.degrees(-90))
-                        .animation(.spring(response: 0.35), value: confidence)
-
-                    VStack(spacing: 2) {
-                        Text("\(Int(confidence))")
-                            .font(.system(size: 52, weight: .black, design: .rounded))
-                            .foregroundColor(stepAccent)
-                            .contentTransition(.numericText())
-                            .animation(.spring(response: 0.25), value: Int(confidence))
-                        Text("percent")
-                            .font(.caption.weight(.semibold))
-                            .foregroundStyle(.tertiary)
-                    }
-                }
+                Text("percent confident")
+                    .font(.caption.weight(.semibold))
+                    .foregroundColor(.white.opacity(0.3))
             }
             .frame(maxWidth: .infinity)
 
@@ -503,7 +386,7 @@ struct TestWizardView: View {
                     Text("Completely certain")
                 }
                 .font(.caption2.weight(.medium))
-                .foregroundStyle(.tertiary)
+                .foregroundColor(.white.opacity(0.25))
             }
 
             confidenceBandLabel
@@ -515,10 +398,10 @@ struct TestWizardView: View {
         let conf = Int(confidence)
         let (label, color): (String, Color) = {
             switch conf {
-            case 0..<30:   return ("Low confidence — be honest with yourself.", ClarityTheme.accentOrange)
-            case 30..<60:  return ("Moderate confidence — interesting territory.", ClarityTheme.accentYellow)
-            case 60..<85:  return ("High confidence — let's see if it holds up.", ClarityTheme.accentCyan)
-            default:       return ("Very high confidence — bold claim!", ClarityTheme.accentGreen)
+            case 0..<30:   return ("Low confidence — be honest with yourself.", .orange)
+            case 30..<60:  return ("Moderate confidence — interesting territory.", .yellow)
+            case 60..<85:  return ("High confidence — let's see if it holds up.", .cyan)
+            default:       return ("Very high confidence — bold claim!", .green)
             }
         }()
 
@@ -530,12 +413,10 @@ struct TestWizardView: View {
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 9)
-        .background(color.opacity(0.06))
+        .background(color.opacity(0.08))
         .clipShape(Capsule())
         .animation(.easeInOut(duration: 0.2), value: Int(confidence / 30))
     }
-
-    // MARK: - Answer Step
 
     private var answerStep: some View {
         VStack(alignment: .leading, spacing: 24) {
@@ -543,10 +424,10 @@ struct TestWizardView: View {
             VStack(alignment: .leading, spacing: 8) {
                 Text("No hints. No peeking.")
                     .font(.subheadline.weight(.medium))
-                    .foregroundStyle(.secondary)
+                    .foregroundColor(.white.opacity(0.4))
                 Text("Write everything you know from memory.")
                     .font(.title3.weight(.bold))
-                    .foregroundStyle(.primary)
+                    .foregroundColor(.white)
                     .lineSpacing(4)
             }
 
@@ -558,23 +439,19 @@ struct TestWizardView: View {
                     }
                 }
             } else {
-                // Empty state
-                VStack(spacing: 12) {
-                    Image(systemName: "text.cursor")
-                        .font(.system(size: 28, weight: .light))
-                        .foregroundStyle(.quaternary)
+        
+                VStack(spacing: 10) {
+                    Image(systemName: "tray")
+                        .font(.title)
+                        .foregroundColor(.white.opacity(0.12))
                     Text("Use one of the input modes below")
-                        .font(.subheadline.weight(.medium))
-                        .foregroundStyle(.tertiary)
+                        .font(.caption.weight(.medium))
+                        .foregroundColor(.white.opacity(0.25))
                 }
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 36)
-                .background(Color.primary.opacity(0.02))
-                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 16, style: .continuous)
-                        .stroke(Color.primary.opacity(0.06), style: StrokeStyle(lineWidth: 1, dash: [6, 4]))
-                )
+                .padding(.vertical, 28)
+                .background(Color.white.opacity(0.03))
+                .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
             }
 
             HStack(spacing: 10) {
@@ -598,13 +475,13 @@ struct TestWizardView: View {
                         Text(voiceRecorder.isRecording ? "Stop" : "Voice")
                             .font(.caption.weight(.bold))
                     }
-                    .foregroundColor(voiceRecorder.isRecording ? .white : ClarityTheme.accentOrange)
+                    .foregroundColor(voiceRecorder.isRecording ? .white : .orange)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 14)
-                    .background(voiceRecorder.isRecording ? Color.red : ClarityTheme.accentOrange.opacity(0.08))
+                    .background(voiceRecorder.isRecording ? Color.red : Color.orange.opacity(0.1))
                     .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
                     .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous)
-                        .stroke(voiceRecorder.isRecording ? Color.red.opacity(0.5) : ClarityTheme.accentOrange.opacity(0.18), lineWidth: 1))
+                        .stroke(voiceRecorder.isRecording ? Color.red.opacity(0.5) : Color.orange.opacity(0.2), lineWidth: 1))
                     .scaleEffect(voiceRecorder.isRecording ? 1.04 : 1.0)
                     .animation(voiceRecorder.isRecording ? .easeInOut(duration: 0.8).repeatForever() : .default, value: voiceRecorder.isRecording)
                 }
@@ -619,17 +496,17 @@ struct TestWizardView: View {
     private func answerChip(_ answer: SolutionMedia) -> some View {
         HStack(spacing: 12) {
             Image(systemName: answer.type == .text ? "text.alignleft" : answer.type == .image ? "photo" : "waveform")
-                .font(.footnote.weight(.semibold))
+                .font(.footnote.weight(.semibold)) // HIG
                 .foregroundColor(stepAccent)
                 .frame(width: 32, height: 32)
-                .background(stepAccent.opacity(0.08))
+                .background(stepAccent.opacity(0.1))
                 .clipShape(Circle())
 
             Group {
                 if answer.type == .text {
                     Text(answer.textContent ?? "")
                         .font(.subheadline)
-                        .foregroundStyle(.primary)
+                        .foregroundColor(.white)
                         .lineLimit(2)
                 } else if answer.type == .image, let data = answer.imageData, let img = UIImage(data: data) {
                     Image(uiImage: img)
@@ -641,10 +518,10 @@ struct TestWizardView: View {
                     VStack(alignment: .leading, spacing: 2) {
                         Text("Voice Recording")
                             .font(.subheadline.weight(.medium))
-                            .foregroundStyle(.primary)
+                            .foregroundColor(.white)
                         Text("Audio attached")
                             .font(.caption2.weight(.medium))
-                            .foregroundStyle(.secondary)
+                            .foregroundColor(.white.opacity(0.4))
                     }
                 }
             }
@@ -656,22 +533,22 @@ struct TestWizardView: View {
             } label: {
                 Image(systemName: "xmark")
                     .font(.caption2.weight(.bold))
-                    .foregroundStyle(.tertiary)
+                    .foregroundColor(.white.opacity(0.3))
                     .frame(width: 24, height: 24)
-                    .background(Color.primary.opacity(0.06))
+                    .background(Color.white.opacity(0.06))
                     .clipShape(Circle())
             }
             .buttonStyle(.plain)
             .accessibilityLabel("Remove \(answer.type == .text ? "text" : answer.type == .image ? "image" : "voice") answer")
         }
         .padding(12)
-        .background(Color.primary.opacity(0.03))
+        .background(Color.white.opacity(0.04))
         .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).stroke(Color.primary.opacity(0.06), lineWidth: 1))
+        .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).stroke(Color.white.opacity(0.07), lineWidth: 1))
         .transition(.move(edge: .top).combined(with: .opacity))
     }
 
-    // MARK: - Evaluation Choice Step
+
 
     private var evaluationChoiceStep: some View {
         VStack(alignment: .leading, spacing: 20) {
@@ -679,10 +556,10 @@ struct TestWizardView: View {
             VStack(alignment: .leading, spacing: 8) {
                 Text("Answer locked. Now —")
                     .font(.subheadline.weight(.medium))
-                    .foregroundStyle(.secondary)
+                    .foregroundColor(.white.opacity(0.4))
                 Text("How do you want to evaluate?")
                     .font(.title3.weight(.bold))
-                    .foregroundStyle(.primary)
+                    .foregroundColor(.white)
             }
 
             VStack(spacing: 12) {
@@ -712,7 +589,7 @@ struct TestWizardView: View {
                     title:    "Ultimate Calibration",
                     subtitle: "Predict your score first, then face the AI reality.",
                     icon:     "cpu",
-                    color:    ClarityTheme.accentPurple,
+                    color:    .purple,
                     selected: evalMode == .ultimateCalibration
                 ) {
                     evalMode = .ultimateCalibration
@@ -732,7 +609,7 @@ struct TestWizardView: View {
             HStack(spacing: 16) {
                 ZStack {
                     Circle()
-                        .fill(color.opacity(selected ? 0.2 : 0.06))
+                        .fill(color.opacity(selected ? 0.25 : 0.08))
                         .frame(width: 48, height: 48)
                     Image(systemName: icon)
                         .font(.title3.weight(.semibold))
@@ -742,10 +619,10 @@ struct TestWizardView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(title)
                         .font(.headline.weight(.bold))
-                        .foregroundStyle(.primary)
+                        .foregroundColor(.white)
                     Text(subtitle)
                         .font(.caption.weight(.medium))
-                        .foregroundStyle(.secondary)
+                        .foregroundColor(.white.opacity(0.5))
                         .lineLimit(2)
                 }
 
@@ -753,7 +630,7 @@ struct TestWizardView: View {
 
                 ZStack {
                     Circle()
-                        .stroke(selected ? color : Color.primary.opacity(0.12), lineWidth: 1.5)
+                        .stroke(selected ? color : Color.white.opacity(0.15), lineWidth: 1.5)
                         .frame(width: 22, height: 22)
                     if selected {
                         Circle()
@@ -767,18 +644,16 @@ struct TestWizardView: View {
             .padding(16)
             .background(
                 RoundedRectangle(cornerRadius: 18, style: .continuous)
-                    .fill(selected ? color.opacity(0.06) : Color.primary.opacity(0.02))
+                    .fill(selected ? color.opacity(0.08) : Color.white.opacity(0.04))
             )
             .overlay(
                 RoundedRectangle(cornerRadius: 18, style: .continuous)
-                    .stroke(selected ? color.opacity(0.35) : Color.primary.opacity(0.06), lineWidth: 1)
+                    .stroke(selected ? color.opacity(0.4) : Color.white.opacity(0.08), lineWidth: 1)
             )
             .animation(.spring(response: 0.3), value: selected)
         }
         .buttonStyle(.plain)
     }
-
-    // MARK: - Compare Answers Step
 
     private var compareAnswersStep: some View {
         VStack(alignment: .leading, spacing: 20) {
@@ -786,15 +661,15 @@ struct TestWizardView: View {
             VStack(alignment: .leading, spacing: 8) {
                 Text("No more guessing —")
                     .font(.subheadline.weight(.medium))
-                    .foregroundStyle(.secondary)
+                    .foregroundColor(.white.opacity(0.4))
                 Text("See the model answer.")
                     .font(.title3.weight(.bold))
-                    .foregroundStyle(.primary)
+                    .foregroundColor(.white)
             }
             comparePanel(
                 title: "Model Answer",
                 icon: "checkmark.seal.fill",
-                color: ClarityTheme.accentGreen,
+                color: .teal,
                 items: topic.solutions,
                 emptyMessage: "No model solution provided."
             )
@@ -823,7 +698,7 @@ struct TestWizardView: View {
             if items.isEmpty {
                 Text(emptyMessage)
                     .font(.caption.weight(.medium))
-                    .foregroundStyle(.tertiary)
+                    .foregroundColor(.white.opacity(0.3))
                     .padding(.vertical, 8)
             } else {
                 VStack(spacing: 8) {
@@ -832,9 +707,9 @@ struct TestWizardView: View {
             }
         }
         .padding(16)
-        .background(color.opacity(0.04))
+        .background(color.opacity(0.06))
         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous).stroke(color.opacity(0.15), lineWidth: 1))
+        .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous).stroke(color.opacity(0.2), lineWidth: 1))
     }
 
     @ViewBuilder
@@ -842,11 +717,11 @@ struct TestWizardView: View {
         if media.type == .text {
             Text(media.textContent ?? "")
                 .font(.subheadline.weight(.regular))
-                .foregroundStyle(.primary)
+                .foregroundColor(.white.opacity(0.85))
                 .lineSpacing(4)
                 .padding(12)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(Color.primary.opacity(0.03))
+                .background(Color.white.opacity(0.04))
                 .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
         } else if media.type == .image, let data = media.imageData, let img = UIImage(data: data) {
             Image(uiImage: img)
@@ -858,56 +733,33 @@ struct TestWizardView: View {
         }
     }
 
-    // MARK: - Predict Score Step
 
     private var predictScoreStep: some View {
-        VStack(alignment: .leading, spacing: 28) {
+        VStack(alignment: .leading, spacing: 36) {
 
             VStack(alignment: .leading, spacing: 8) {
                 Text(evalMode == .ultimateCalibration ? "Commit to a number —" : "Be honest with yourself —")
-                    .font(.subheadline.weight(.medium))
-                    .foregroundStyle(.secondary)
+                    .font(.subheadline.weight(.medium)) // HIG
+                    .foregroundColor(.white.opacity(0.4))
                 Text(evalMode == .ultimateCalibration
                      ? "What score do you think you earned?"
                      : "What is your honest self-grade?")
-                    .font(.title3.weight(.bold))
-                    .foregroundStyle(.primary)
+                    .font(.title3.weight(.bold)) // HIG
+                    .foregroundColor(.white)
                     .lineSpacing(4)
             }
 
-            // Circular ring + score
-            VStack(spacing: 12) {
-                ZStack {
-                    Circle()
-                        .stroke(Color.primary.opacity(0.06), lineWidth: 10)
-                        .frame(width: 160, height: 160)
+            VStack(spacing: 4) {
+                Text("\(Int(predictedScore))")
+                    .font(.system(size: 88, weight: .black, design: .rounded))
+                    .foregroundColor(stepAccent)
+                    .shadow(color: stepAccent.opacity(0.35), radius: 20)
+                    .contentTransition(.numericText())
+                    .animation(.spring(response: 0.25), value: Int(predictedScore))
 
-                    Circle()
-                        .trim(from: 0, to: predictedScore / 100.0)
-                        .stroke(
-                            AngularGradient(
-                                colors: [stepAccent.opacity(0.4), stepAccent],
-                                center: .center,
-                                startAngle: .degrees(0),
-                                endAngle: .degrees(360)
-                            ),
-                            style: StrokeStyle(lineWidth: 10, lineCap: .round)
-                        )
-                        .frame(width: 160, height: 160)
-                        .rotationEffect(.degrees(-90))
-                        .animation(.spring(response: 0.35), value: predictedScore)
-
-                    VStack(spacing: 2) {
-                        Text("\(Int(predictedScore))")
-                            .font(.system(size: 52, weight: .black, design: .rounded))
-                            .foregroundColor(stepAccent)
-                            .contentTransition(.numericText())
-                            .animation(.spring(response: 0.25), value: Int(predictedScore))
-                        Text("out of 100")
-                            .font(.caption.weight(.semibold))
-                            .foregroundStyle(.tertiary)
-                    }
-                }
+                Text("out of 100")
+                    .font(.caption.weight(.semibold))
+                    .foregroundColor(.white.opacity(0.3))
             }
             .frame(maxWidth: .infinity)
 
@@ -924,7 +776,7 @@ struct TestWizardView: View {
                     Text("100%")
                 }
                 .font(.caption2.weight(.medium))
-                .foregroundStyle(.tertiary)
+                .foregroundColor(.white.opacity(0.2))
             }
 
             if evalMode == .ultimateCalibration {
@@ -932,20 +784,19 @@ struct TestWizardView: View {
                 HStack(spacing: 10) {
                     Image(systemName: "arrow.up.left.and.down.right.magnifyingglass")
                         .font(.footnote)
-                        .foregroundStyle(.secondary)
+                        .foregroundColor(.white.opacity(0.4))
                     Text("Confidence: \(Int(confidence))%  →  Prediction: \(Int(predictedScore))%  =  \(gap > 0 ? "+" : "")\(gap) gap")
                         .font(.caption.weight(.medium).monospaced())
-                        .foregroundStyle(.secondary)
+                        .foregroundColor(.white.opacity(0.4))
                 }
                 .padding(12)
-                .background(Color.primary.opacity(0.03))
+                .background(Color.white.opacity(0.04))
                 .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
             }
         }
         .stepCard(accent: stepAccent)
     }
 
-    // MARK: - AI Reveal Step
   
 
     var aiRevealStep: some View {
@@ -960,77 +811,74 @@ struct TestWizardView: View {
         )
     }
 
-    // MARK: - Reflection Step
-
     private var reflectionStep: some View {
         VStack(alignment: .leading, spacing: 24) {
 
             VStack(alignment: .leading, spacing: 8) {
                 Text("The session is over —")
                     .font(.subheadline.weight(.medium))
-                    .foregroundStyle(.secondary)
+                    .foregroundColor(.white.opacity(0.4))
                 Text("What did this reveal about you?")
                     .font(.title3.weight(.bold))
-                    .foregroundStyle(.primary)
+                    .foregroundColor(.white)
                     .lineSpacing(4)
             }
 
-            // Score comparison — horizontal bar style
             HStack(spacing: 0) {
                 scoreColumn(
                     label: "Confidence",
                     value: "\(Int(confidence))%",
-                    color: ClarityTheme.accentCyan,
+                    color: .cyan,
                     icon: "brain"
                 )
                 VStack(spacing: 6) {
                     Image(systemName: "arrow.right")
-                        .font(.caption.weight(.bold))
-                        .foregroundStyle(.tertiary)
+                        .font(.caption.weight(.bold)) // HIG
+                        .foregroundColor(.white.opacity(0.2))
 
                     let gap = Int(confidence) - (evalMode == .selfReflect ? Int(predictedScore) : (aiScore ?? 0))
                     Text("\(gap > 0 ? "": "")\(gap)")
-                        .font(.caption2.weight(.heavy).monospaced())
-                        .foregroundColor(gap == 0 ? ClarityTheme.accentGreen : (abs(gap) > 20 ? ClarityTheme.accentRed : ClarityTheme.accentOrange))
+                        .font(.caption2.weight(.heavy).monospaced()) // HIG
+                        .foregroundColor(gap == 0 ? .green : (abs(gap) > 20 ? .red : .orange))
                 }
                 .frame(maxWidth: .infinity)
 
                 scoreColumn(
                     label: evalMode == .selfReflect ? "Self Grade" : "AI Grade",
                     value: "\(evalMode == .selfReflect ? Int(predictedScore) : (aiScore ?? 0))%",
-                    color: evalMode == .selfReflect ? ClarityTheme.accentYellow : ClarityTheme.accentPurple,
+                    color: evalMode == .selfReflect ? Color(red: 1.0, green: 0.8, blue: 0.2) : .purple,
                     icon: evalMode == .selfReflect ? "person.fill" : "sparkles"
                 )
             }
             .padding(18)
-            .background(Color.primary.opacity(0.03))
+            .background(Color.white.opacity(0.04))
             .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-            .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous).stroke(Color.primary.opacity(0.06), lineWidth: 1))
+            .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous).stroke(Color.white.opacity(0.08), lineWidth: 1))
 
             Text("Why did this gap happen? What do you think?")
-                .font(.subheadline.weight(.semibold))
-                .foregroundStyle(.secondary)
+                .font(.subheadline.weight(.semibold)) // HIG
+                .foregroundColor(.white.opacity(0.7))
 
             
             ZStack(alignment: .topLeading) {
                 if reflectionText.isEmpty {
                     Text("Write your reflection here…")
                         .font(.body)
-                        .foregroundStyle(.tertiary)
+                        .foregroundColor(.white.opacity(0.2))
                         .padding(14)
                 }
                 TextEditor(text: $reflectionText)
                     .font(.body)
-                    .foregroundStyle(.primary)
+                    .foregroundColor(.white)
                     .scrollContentBackground(.hidden)
                     .tint(stepAccent)
                     .frame(height: 130)
                     .padding(8)
             }
-            .background(Color.primary.opacity(0.03))
+            .background(Color.white.opacity(0.04))
             .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
             .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous)
-                .stroke(stepAccent.opacity(reflectionText.isEmpty ? 0.08 : 0.25), lineWidth: 1))
+                .stroke(stepAccent.opacity(reflectionText.isEmpty ? 0.1 : 0.3), lineWidth: 1))
             .animation(.easeInOut(duration: 0.2), value: reflectionText.isEmpty)
         }
         .stepCard(accent: stepAccent)
@@ -1046,7 +894,7 @@ struct TestWizardView: View {
                 .foregroundColor(color)
             Text(label)
                 .font(.caption2.weight(.bold))
-                .foregroundStyle(.tertiary)
+                .foregroundColor(.white.opacity(0.35))
         }
         .frame(maxWidth: .infinity)
     }
@@ -1072,13 +920,13 @@ struct TestWizardView: View {
                         .font(.footnote.weight(.bold))
                 }
             }
-            .foregroundColor(isButtonDisabled ? Color.primary.opacity(0.25) : .white)
+            .foregroundColor(isButtonDisabled ? .white.opacity(0.25) : .white)
             .frame(maxWidth: .infinity)
             .padding(.vertical, 18)
             .background(
                 Group {
                     if isButtonDisabled {
-                        AnyView(Color.primary.opacity(0.05))
+                        AnyView(Color.white.opacity(0.07))
                     } else if step == .reflection {
                         AnyView(LinearGradient(
                             colors: [stepAccent, stepAccent.opacity(0.7)],
@@ -1092,12 +940,11 @@ struct TestWizardView: View {
                     }
                 }
             )
-            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
             .shadow(
-                color: isButtonDisabled ? .clear : stepAccent.opacity(0.35),
+                color: isButtonDisabled ? .clear : stepAccent.opacity(0.45),
                 radius: 16, x: 0, y: 6
             )
-            .scaleEffect(isButtonDisabled ? 1.0 : 1.0)
             .animation(.spring(response: 0.35), value: isButtonDisabled)
         }
         .disabled(isButtonDisabled)
@@ -1249,8 +1096,37 @@ struct TestWizardView: View {
     }
 }
 
-// StepCardModifier removed — using the global adaptive StepCard from DesignSystem.swift
 
+private struct StepCardModifier: ViewModifier {
+    let accent: Color
+
+    func body(content: Content) -> some View {
+        content
+            .padding(24)
+            .background(
+                ZStack {
+                    Color(red: 0.08, green: 0.08, blue: 0.13)
+                    RadialGradient(
+                        colors: [accent.opacity(0.07), .clear],
+                        center: .topLeading,
+                        startRadius: 0,
+                        endRadius: 200
+                    )
+                }
+            )
+            .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+            .overlay(
+                RoundedRectangle(cornerRadius: 24, style: .continuous)
+                    .stroke(accent.opacity(0.15), lineWidth: 1)
+            )
+    }
+}
+
+extension View {
+    fileprivate func stepCard(accent: Color) -> some View {
+        modifier(StepCardModifier(accent: accent))
+    }
+}
 struct AIEvaluationPayload: Sendable {
     let title: String
     let question: String

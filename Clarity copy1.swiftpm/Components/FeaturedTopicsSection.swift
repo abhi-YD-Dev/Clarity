@@ -25,10 +25,10 @@ struct FeaturedTopicsSection: View {
     @State private var showingQuickCreate = false
 
     let cardGradients: [[Color]] = [
-        [Color(red: 0.15, green: 0.55, blue: 0.88), Color(red: 0.08, green: 0.38, blue: 0.75)],
-        [Color(red: 0.45, green: 0.18, blue: 0.70), Color(red: 0.30, green: 0.10, blue: 0.52)],
-        [Color(red: 0.85, green: 0.45, blue: 0.15), Color(red: 0.72, green: 0.28, blue: 0.08)],
-        [Color(red: 0.12, green: 0.65, blue: 0.50), Color(red: 0.05, green: 0.48, blue: 0.36)]
+        [Color(red: 0.2, green: 0.6, blue: 1.0), Color(red: 0.1, green: 0.4, blue: 0.9)],
+        [Color(red: 0.6, green: 0.2, blue: 0.8), Color(red: 0.4, green: 0.1, blue: 0.6)],
+        [Color(red: 1.0, green: 0.5, blue: 0.2), Color(red: 0.9, green: 0.3, blue: 0.1)],
+        [Color(red: 0.1, green: 0.8, blue: 0.6), Color(red: 0.0, green: 0.6, blue: 0.4)]
     ]
     let cardIcons: [String] = [
         "brain.head.profile", "waveform.path.ecg", "function", "bolt.fill"
@@ -66,8 +66,8 @@ struct FeaturedTopicsSection: View {
 
             HStack(alignment: .center) {
                 Text("Suggested Topics")
-                    .font(.title3.weight(.bold))
-                    .foregroundStyle(.primary)
+                    .font(.system(.title3, weight: .bold))
+                    .foregroundColor(.white)
 
                 Spacer()
 
@@ -91,12 +91,12 @@ struct FeaturedTopicsSection: View {
                         Image(systemName: "chevron.down")
                             .font(.system(size: 10, weight: .bold))
                     }
-                    .foregroundStyle(.secondary)
+                    .foregroundColor(.white.opacity(0.65))
                     .padding(.horizontal, 12)
                     .padding(.vertical, 7)
-                    .background(Color.primary.opacity(0.06))
+                    .background(Color.white.opacity(0.08))
                     .clipShape(Capsule())
-                    .overlay(Capsule().stroke(Color.primary.opacity(0.08), lineWidth: 1))
+                    .overlay(Capsule().stroke(Color.white.opacity(0.12), lineWidth: 1))
                 }
                 .menuStyle(.borderlessButton)
             }
@@ -135,14 +135,14 @@ struct FeaturedTopicsSection: View {
                             Image(systemName: "chevron.right")
                                 .font(.system(size: 11, weight: .bold))
                         }
-                        .foregroundColor(ClarityTheme.accentCyan.opacity(0.8))
+                        .foregroundColor(.cyan.opacity(0.8))
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 13)
-                        .background(ClarityTheme.accentCyan.opacity(0.05))
+                        .background(Color.cyan.opacity(0.06))
                         .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
                         .overlay(
                             RoundedRectangle(cornerRadius: 14, style: .continuous)
-                                .stroke(ClarityTheme.accentCyan.opacity(0.12), lineWidth: 1)
+                                .stroke(Color.cyan.opacity(0.15), lineWidth: 1)
                         )
                     }
                     .buttonStyle(.plain)
@@ -158,24 +158,27 @@ struct FeaturedTopicsSection: View {
         }
     }
 
+   
+
     private var emptyState: some View {
         VStack(spacing: 10) {
 
+            
             HStack(alignment: .top, spacing: 12) {
                 Image(systemName: sortOption == .optional ? "book.pages.fill" : "lightbulb.fill")
                     .font(.system(size: 15, weight: .semibold))
-                    .foregroundColor(ClarityTheme.accentCyan)
+                    .foregroundColor(.cyan)
                     .padding(.top, 1)
 
                 if sortOption == .optional {
                     Text("No optional topics available yet.")
-                        .font(.subheadline.weight(.medium))
-                        .foregroundStyle(.secondary)
+                        .font(.system(.subheadline, weight: .medium))
+                        .foregroundColor(.white.opacity(0.4))
                         .fixedSize(horizontal: false, vertical: true)
                 } else {
-                    Text("\(Text("Create a concept").font(.subheadline.weight(.bold)).foregroundStyle(.primary)) or \(Text("pick a concept from the Library").font(.subheadline.weight(.bold)).foregroundColor(ClarityTheme.accentCyan)) to create a custom topic.")
-                        .font(.subheadline.weight(.medium))
-                        .foregroundStyle(.secondary)
+                    Text("\(Text("Create a concept").font(.system(.subheadline, weight: .bold)).foregroundColor(.white)) or \(Text("pick a concept from the Library").font(.system(.subheadline, weight: .bold)).foregroundColor(.cyan)) to create a custom topic.")
+                        .font(.system(.subheadline, weight: .medium))
+                        .foregroundColor(.white.opacity(0.4))
                         .fixedSize(horizontal: false, vertical: true)
                         .lineSpacing(4)
                 }
@@ -184,11 +187,11 @@ struct FeaturedTopicsSection: View {
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 16)
-            .background(ClarityTheme.accentCyan.opacity(0.04))
+            .background(Color.cyan.opacity(0.05))
             .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
             .overlay(
                 RoundedRectangle(cornerRadius: 14, style: .continuous)
-                    .stroke(ClarityTheme.accentCyan.opacity(0.12), lineWidth: 1)
+                    .stroke(Color.cyan.opacity(0.18), lineWidth: 1)
             )
             .padding(.horizontal, 24)
 
@@ -201,18 +204,34 @@ struct FeaturedTopicsSection: View {
                         Image(systemName: "plus.circle.fill")
                             .font(.system(size: 15, weight: .semibold))
                         Text("Create a Topic")
-                            .font(.subheadline.weight(.bold))
+                            .font(.system(.subheadline, weight: .bold))
                     }
-                    .foregroundColor(.white)
+                    .foregroundColor(.black)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 14)
-                    .background(ClarityTheme.cyanGradient)
+                    .background(Color.cyan)
                     .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-                    .shadow(color: ClarityTheme.accentCyan.opacity(0.30), radius: 10, x: 0, y: 4)
+                    .shadow(color: Color.cyan.opacity(0.35), radius: 10, x: 0, y: 4)
                 }
                 .buttonStyle(.plain)
                 .padding(.horizontal, 24)
             }
+        }
+    }
+
+    private var emptyTitle: String {
+        switch sortOption {
+        case .recentAdded: return "No Topics Yet"
+        case .optional:    return "No Optional Topics"
+        case .custom:      return "No Custom Topics"
+        }
+    }
+
+    private var emptySubtitle: String {
+        switch sortOption {
+        case .recentAdded: return "Create a concept and add topics\nto start testing your knowledge."
+        case .optional:    return "Optional curriculum topics will\nappear here once added."
+        case .custom:      return "Tap below to create your first\nconcept and add a topic to it."
         }
     }
 
@@ -230,10 +249,10 @@ struct AllSuggestedTopicsView: View {
     @State private var sortOption: TopicSortOption = .recentAdded
 
     let cardGradients: [[Color]] = [
-        [Color(red: 0.15, green: 0.55, blue: 0.88), Color(red: 0.08, green: 0.38, blue: 0.75)],
-        [Color(red: 0.45, green: 0.18, blue: 0.70), Color(red: 0.30, green: 0.10, blue: 0.52)],
-        [Color(red: 0.85, green: 0.45, blue: 0.15), Color(red: 0.72, green: 0.28, blue: 0.08)],
-        [Color(red: 0.12, green: 0.65, blue: 0.50), Color(red: 0.05, green: 0.48, blue: 0.36)]
+        [Color(red: 0.2, green: 0.6, blue: 1.0), Color(red: 0.1, green: 0.4, blue: 0.9)],
+        [Color(red: 0.6, green: 0.2, blue: 0.8), Color(red: 0.4, green: 0.1, blue: 0.6)],
+        [Color(red: 1.0, green: 0.5, blue: 0.2), Color(red: 0.9, green: 0.3, blue: 0.1)],
+        [Color(red: 0.1, green: 0.8, blue: 0.6), Color(red: 0.0, green: 0.6, blue: 0.4)]
     ]
     let cardIcons: [String] = ["brain.head.profile", "waveform.path.ecg", "function", "bolt.fill"]
 
@@ -250,15 +269,16 @@ struct AllSuggestedTopicsView: View {
 
     var body: some View {
         ZStack {
-            ClarityTheme.screenBackground.ignoresSafeArea()
+            Color(red: 0.04, green: 0.04, blue: 0.07).ignoresSafeArea()
 
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 16) {
 
+                    
                     HStack {
                         Text("\(displayedTopics.count) topic\(displayedTopics.count == 1 ? "" : "s")")
-                            .font(.caption.weight(.bold))
-                            .foregroundStyle(.tertiary)
+                            .font(.system(size: 12, weight: .black))
+                            .foregroundColor(.white.opacity(0.3))
                             .kerning(0.5)
                         Spacer()
                         Menu {
@@ -279,10 +299,10 @@ struct AllSuggestedTopicsView: View {
                                 Image(systemName: "chevron.down")
                                     .font(.system(size: 10, weight: .bold))
                             }
-                            .foregroundStyle(.secondary)
+                            .foregroundColor(.white.opacity(0.6))
                             .padding(.horizontal, 12)
                             .padding(.vertical, 7)
-                            .background(Color.primary.opacity(0.06))
+                            .background(Color.white.opacity(0.07))
                             .clipShape(Capsule())
                         }
                         .menuStyle(.borderlessButton)
@@ -294,10 +314,10 @@ struct AllSuggestedTopicsView: View {
                         VStack(spacing: 14) {
                             Image(systemName: "tray")
                                 .font(.system(size: 32, weight: .light))
-                                .foregroundStyle(.quaternary)
+                                .foregroundColor(.white.opacity(0.15))
                             Text("No topics in this category.")
-                                .font(.subheadline.weight(.medium))
-                                .foregroundStyle(.tertiary)
+                                .font(.system(.subheadline, weight: .medium))
+                                .foregroundColor(.white.opacity(0.3))
                         }
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 60)
@@ -346,7 +366,7 @@ struct CategoryCardView: View {
             LinearGradient(colors: colors, startPoint: .topLeading, endPoint: .bottomTrailing)
             VStack {
                 Spacer()
-                LinearGradient(colors: [.clear, .black.opacity(0.25)], startPoint: .top, endPoint: .bottom)
+                LinearGradient(colors: [.clear, .black.opacity(0.28)], startPoint: .top, endPoint: .bottom)
                     .frame(height: 80)
             }
             VStack {
@@ -355,7 +375,7 @@ struct CategoryCardView: View {
                     Spacer()
                     Image(systemName: bgIcon)
                         .font(.system(size: 85, weight: .bold))
-                        .foregroundStyle(.white.opacity(0.06))
+                        .foregroundColor(.white.opacity(0.12))
                         .rotationEffect(.degrees(-15))
                         .offset(x: 15, y: 25)
                 }
@@ -363,12 +383,12 @@ struct CategoryCardView: View {
             VStack(alignment: .leading, spacing: 0) {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(topic.title)
-                        .font(.headline.weight(.bold))
-                        .foregroundStyle(.white)
+                        .font(.system(size: 16, weight: .bold))
+                        .foregroundColor(.white)
                         .lineLimit(2)
                     Text(topic.quickHint)
-                        .font(.caption.weight(.medium))
-                        .foregroundStyle(.white.opacity(0.7))
+                        .font(.system(size: 13, weight: .medium))
+                        .foregroundColor(.white.opacity(0.75))
                         .lineLimit(1)
                 }
                 Spacer()
@@ -389,16 +409,17 @@ struct CategoryCardView: View {
                     VStack(alignment: .trailing, spacing: 5) {
                         HStack(spacing: 3) {
                             Image(systemName: isCustom ? "person.badge.plus" : "book.pages.fill")
-                                .font(.system(size: 7, weight: .bold))
+                                .font(.system(size: 7, weight: .black))
                             Text(isCustom ? "CUSTOM" : "OPTIONAL")
-                                .font(.system(size: 8, weight: .bold))
+                                .font(.system(size: 8, weight: .black))
                                 .kerning(0.5)
                         }
-                        .foregroundColor(.white)
+                        .foregroundColor(isCustom ? .purple : .cyan)
                         .padding(.horizontal, 6)
                         .padding(.vertical, 3)
-                        .background(.ultraThinMaterial)
+                        .background((isCustom ? Color.purple : Color.cyan).opacity(0.18))
                         .clipShape(Capsule())
+                        .overlay(Capsule().stroke((isCustom ? Color.purple : Color.cyan).opacity(0.3), lineWidth: 1))
                         
                         HStack(spacing: 4) {
                             Text("Start")
@@ -406,11 +427,12 @@ struct CategoryCardView: View {
                             Image(systemName: "arrow.right")
                                 .font(.system(size: 10, weight: .bold))
                         }
-                        .foregroundStyle(.white)
+                        .foregroundColor(.white)
                         .padding(.horizontal, 12)
                         .padding(.vertical, 6)
-                        .background(.ultraThinMaterial)
+                        .background(Color.white.opacity(0.2))
                         .clipShape(Capsule())
+                        .overlay(Capsule().stroke(Color.white.opacity(0.35), lineWidth: 1))
                     }
                 }
             }
@@ -418,6 +440,6 @@ struct CategoryCardView: View {
         }
         .frame(height: 145) 
         .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
-        .shadow(color: colors.first!.opacity(0.35), radius: 12, x: 0, y: 6)
+        .shadow(color: colors.first!.opacity(0.40), radius: 12, x: 0, y: 6)
     }
 }
